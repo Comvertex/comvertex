@@ -112,6 +112,7 @@ body {
     transform: translateY(30px);
     transition: all 1s var(--soft-ease);
     cursor: pointer;
+    display: inline-block;
 }
 
 .menu li:hover {
