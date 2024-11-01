@@ -61,18 +61,16 @@ body {
 .blue-banner {
     position: fixed;
     top: 0;
-    right: 0;
+    right: -33.33vw;
     width: 33.33vw;
     height: 100vh;
     background-color: #0C1E37;
     opacity: 0;
-    transform: translateX(100%);
-    transition: transform 2.4s cubic-bezier(0.16, 1, 0.3, 1),
-                opacity 2.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 3.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .blue-banner.active {
-    transform: translateX(0);
+    transform: translateX(-100%);
     opacity: 1;
 }
 
@@ -91,11 +89,22 @@ body {
 .menu li {
     color: white;
     font-family: 'Futura Heavy', sans-serif;
+    font-weight: bold;
     font-size: clamp(1.25rem, 2vw, 1.75rem);
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     opacity: 0;
     transform: translateX(30px);
-    transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 1s cubic-bezier(0.16, 1, 0.3, 1), 
+                color 0.3s ease;
+    cursor: pointer;
+}
+
+.menu li:hover {
+    color: #B5B7F9;
+}
+
+.menu li.selected {
+    color: #B5B7F9;
 }
 
 @keyframes riseLogo {
