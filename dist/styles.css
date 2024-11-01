@@ -98,7 +98,7 @@ body {
     line-height: 1.2;
     opacity: 0;
     animation: fadeInText 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    animation-delay: 2.4s;
+    animation-delay: 3.6s;
     margin: 0;
 }
 
@@ -111,7 +111,7 @@ body {
     background-color: #F14541;
     opacity: 0;
     animation: slideInRed 2.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    animation-delay: 2s;
+    animation-delay: 3.6s;
     z-index: 1;
 }
 
@@ -126,7 +126,7 @@ body {
 
 .logo-container {
     padding: 20px;
-    width: clamp(200px, 50%, 350px);
+    width: clamp(200px, 50%, 200px);
     opacity: 0;
     animation: fadeInLogo 2.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
@@ -145,7 +145,7 @@ body {
 /* Add media queries for extra refinement */
 @media screen and (max-width: 768px) {
     .logo-container {
-        width: clamp(180px, 70%, 300px);
+        width: clamp(180px, 70%, 200px);
     }
     
     .blue-section h1 {
@@ -155,7 +155,7 @@ body {
 
 @media screen and (max-width: 480px) {
     .logo-container {
-        width: clamp(150px, 80%, 250px);
+        width: clamp(150px, 80%, 200px);
     }
     
     .blue-section h1 {
