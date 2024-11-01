@@ -7,6 +7,23 @@
     <link rel="stylesheet" href="test-styles.css">
 </head>
 <body>
+    <div class="video-container">
+        <div class="video-overlay"></div>
+        <video 
+            id="backgroundVideo" 
+            playsinline 
+            autoplay 
+            muted 
+            loop 
+            preload="none"
+            poster="assets/poster.jpg"> <!-- Optional: Add a static poster image -->
+            <source 
+                src="assets/background.mp4" 
+                type="video/mp4"
+                media="all and (min-width: 768px)" /> <!-- Only load on desktop -->
+        </video>
+    </div>
+
     <main class="content">
         <div class="center-container">
             <div class="logo-container">
