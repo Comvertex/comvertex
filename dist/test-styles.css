@@ -25,14 +25,9 @@ body {
     transition: transform 2.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.center-container.shifted {
-    transform: translateX(-16.665vw); /* Shifts to center of white area */
-}
-
 .logo-container {
     width: clamp(200px, 50%, 220px);
     opacity: 0;
-    transform: translateY(30px);
     animation: riseLogo 2.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
@@ -41,37 +36,18 @@ body {
     height: auto;
 }
 
-.slogan-container {
-    text-align: center;
+.typewriter-text {
     font-family: 'Futura Heavy', sans-serif;
     font-size: clamp(1.125rem, 2vw, 1.5rem);
-    line-height: 1.5;
-}
-
-.typewriter-text {
     opacity: 0;
-    overflow: hidden;
     white-space: nowrap;
+    overflow: hidden;
     width: 0;
-    display: inline-block;
 }
 
 .typewriter-text.active {
-    opacity: 1;
     width: auto;
-    animation: 
-        typeWriter 1.5s steps(20) forwards,
-        blinkCursor 0.75s step-end infinite;
-}
-
-@keyframes typeWriter {
-    from { width: 0 }
-    to { width: 100% }
-}
-
-@keyframes blinkCursor {
-    from, to { border-right-color: transparent }
-    50% { border-right-color: #0C1E37 }
+    animation: typeWriter 1.5s steps(20) forwards;
 }
 
 .blue-banner {
@@ -84,14 +60,8 @@ body {
     transition: transform 2.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.blue-banner.active {
-    transform: translateX(-100%);
-}
-
 .menu {
-    position: relative;
     padding: 4rem 2rem;
-    opacity: 0;
 }
 
 .menu ul {
@@ -103,28 +73,17 @@ body {
     font-family: 'Futura Book', sans-serif;
     font-size: clamp(1rem, 1.5vw, 1.25rem);
     margin-bottom: 1.5rem;
-    transform: translateX(30px);
     opacity: 0;
+    transform: translateX(30px);
+    transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes riseLogo {
-    0% {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    0% { opacity: 0; transform: translateY(30px); }
+    100% { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes fadeInMenu {
-    0% {
-        opacity: 0;
-        transform: translateX(30px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }
+@keyframes typeWriter {
+    from { width: 0; }
+    to { width: 100%; }
 }

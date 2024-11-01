@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Debug logs to ensure script is running
     console.log('Script initialized');
     
     const centerContainer = document.querySelector('.center-container');
@@ -8,15 +7,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const line2 = document.querySelector('.line2');
     const menuItems = document.querySelectorAll('.menu li');
     
-    // Debug logs to check if elements are found
-    console.log('Elements found:', {
-        centerContainer: !!centerContainer,
-        blueBanner: !!blueBanner,
-        line1: !!line1,
-        line2: !!line2,
-        menuItems: menuItems.length
-    });
-
-    // First ensure the script tag is properly loaded in test.html
-    // Add this to test.html before closing body tag:
+    line1.style.opacity = '0';
+    line2.style.opacity = '0';
+    blueBanner.style.transform = 'translateX(0)';
+    
+    setTimeout(() => {
+        line1.style.opacity = '1';
+        line1.classList.add('active');
+        
+        setTimeout(() => {
+            line2.style.opacity = '1';
+            line2.classList.add('active');
+            
+            setTimeout(() => {
+                blueBanner.style.transform = 'translateX(-100%)';
+                centerContainer.classList.add('shifted');
+                
+                menuItems.forEach((item, index) => {
+                    setTimeout(() => {
+                        item.style.opacity = '1';
+                        item.style.transform = 'translateX(0)';
+                    }, index * 200);
+                });
+            }, 1500);
+        }, 2000);
+    }, 2400);
 }); 
