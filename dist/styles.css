@@ -29,9 +29,22 @@ body, html {
         #0C1E37 30%,
         #F14541 10%
     );
+    animation: background-slide 1.5s ease-in-out forwards;
 }
 
-.logo img {
+@keyframes background-slide {
+    from {
+        background-position: left;
+    }
+    to {
+        background-position: right;
+    }
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     max-width: 150px;
     margin-bottom: 20px;
 }
@@ -41,21 +54,71 @@ body, html {
     color: #0C1E37;
     text-align: center;
     margin-bottom: 30px;
+    transition: opacity 1s ease-in-out, transform 1s ease-in-out;
 }
 
 .nav-links {
     display: flex;
     gap: 30px;
+    transition: opacity 1s ease-in-out, transform 1s ease-in-out;
 }
 
 .nav-links a {
     font-size: 1.2rem;
     font-weight: bold;
-    color: #F14541;
+    color: #0C1E37; /* Primary color */
     text-decoration: none;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease, opacity 1s ease-in-out, transform 1s ease-in-out;
 }
 
 .nav-links a:hover {
-    color: #0C1E37;
+    color: #F14541; /* Accent color */
+}
+
+/* Fade-in and Slide-in Animations */
+.fade-in {
+    opacity: 0;
+    animation: fadeIn 1s ease-in forwards;
+}
+
+.slide-in {
+    transform: translateY(20px);
+    animation: slideIn 1s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    to {
+        transform: translateY(0);
+    }
+}
+
+/* Sequential animation delays */
+.logo.fade-in {
+    animation-delay: 0.5s;
+}
+
+.slogan.fade-in {
+    animation-delay: 1s;
+}
+
+.nav-links.fade-in {
+    animation-delay: 1.5s;
+}
+
+.nav-links a:nth-child(1) {
+    animation-delay: 1.6s;
+}
+
+.nav-links a:nth-child(2) {
+    animation-delay: 1.7s;
+}
+
+.nav-links a:nth-child(3) {
+    animation-delay: 1.8s;
 }
