@@ -23,7 +23,7 @@ body {
     align-items: center;
     gap: 2rem;
     transform: translateX(0);
-    transition: transform 3.6s var(--soft-ease);
+    transition: transform 2.9s var(--soft-ease);
     text-align: center;
 }
 
@@ -67,7 +67,7 @@ body {
     background-color: #0C1E37;
     opacity: 0;
     transform: translateX(0);
-    transition: all 3.6s var(--soft-ease);
+    transition: all 2.9s var(--soft-ease);
     z-index: 10;
 }
 
@@ -81,7 +81,7 @@ body {
     display: flex;
     align-items: center;
     padding: 2rem;
-    padding-left: calc(33.33% + 2rem);
+    padding-left: 25%;
 }
 
 .menu ul {
@@ -92,7 +92,7 @@ body {
 .menu li {
     color: white;
     font-family: 'Futura Heavy', sans-serif;
-    font-weight: bold;
+    font-weight: 900;
     font-size: clamp(1.25rem, 2vw, 1.75rem);
     margin-bottom: 1rem;
     opacity: 0;
@@ -100,14 +100,15 @@ body {
     transition: all 1s var(--soft-ease),
                 color 0.3s ease;
     cursor: pointer;
+    letter-spacing: 0.02em;
 }
 
 .menu li:hover {
-    color: #B5B7F9;
+    color: #C9C9C9;
 }
 
 .menu li.selected {
-    color: #B5B7F9;
+    color: #C9C9C9;
 }
 
 @keyframes riseLogo {
