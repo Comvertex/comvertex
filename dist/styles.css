@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700&display=swap');
+
 body, html {
     margin: 0;
     padding: 0;
@@ -6,13 +8,16 @@ body, html {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #0C1E37;
-    color: white;
-    font-family: Arial, sans-serif;
+    background-color: white;
+    color: #4E506E;
+    font-family: 'Source Sans Pro', sans-serif;
 }
 
 .container {
     text-align: center;
+    background-color: #0C1E37;
+    padding: 20px;
+    border-radius: 10px;
 }
 
 .logo {
@@ -22,8 +27,10 @@ body, html {
 
 h1 {
     color: #F14541;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: bold;
 }
 
 p {
-    color: #4E506E;
+    color: white;
 }
