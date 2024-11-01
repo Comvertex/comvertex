@@ -22,7 +22,13 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 2rem;
+    transform: translateX(0);
     transition: transform 2.4s cubic-bezier(0.16, 1, 0.3, 1);
+    text-align: center;
+}
+
+.center-container.shifted {
+    transform: translateX(-16.665vw);
 }
 
 .logo-container {
@@ -43,11 +49,13 @@ body {
     white-space: nowrap;
     overflow: hidden;
     width: 0;
+    text-align: center;
+    margin: 0 auto;
 }
 
 .typewriter-text.active {
     width: auto;
-    animation: typeWriter 1.5s steps(20) forwards;
+    animation: typeWriter 1s steps(20) forwards, fadeInChars 1s ease-out forwards;
 }
 
 .blue-banner {
@@ -57,22 +65,32 @@ body {
     width: 33.33vw;
     height: 100vh;
     background-color: #0C1E37;
-    transition: transform 2.4s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity: 0;
+    transition: transform 2.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 2.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.blue-banner.active {
+    transform: translateX(-100%);
+    opacity: 1;
 }
 
 .menu {
-    padding: 4rem 2rem;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 2rem;
 }
 
 .menu ul {
     list-style: none;
+    width: 100%;
 }
 
 .menu li {
     color: white;
-    font-family: 'Futura Book', sans-serif;
-    font-size: clamp(1rem, 1.5vw, 1.25rem);
-    margin-bottom: 1.5rem;
+    font-family: 'Futura Heavy', sans-serif;
+    font-size: clamp(1.25rem, 2vw, 1.75rem);
+    margin-bottom: 2rem;
     opacity: 0;
     transform: translateX(30px);
     transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
@@ -86,4 +104,9 @@ body {
 @keyframes typeWriter {
     from { width: 0; }
     to { width: 100%; }
+}
+
+@keyframes fadeInChars {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }

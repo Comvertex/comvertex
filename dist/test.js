@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
             line2.classList.add('active');
             
             setTimeout(() => {
-                blueBanner.style.transform = 'translateX(-100%)';
+                blueBanner.classList.add('active');
                 centerContainer.classList.add('shifted');
                 
                 menuItems.forEach((item, index) => {
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         item.style.transform = 'translateX(0)';
                     }, index * 200);
                 });
-            }, 1500);
-        }, 2000);
-    }, 2400);
+            }, 1000);
+        }, 1200);
+    }, 1800);
 }); 
