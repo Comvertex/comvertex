@@ -65,7 +65,7 @@ body {
     bottom: -33vh;
     left: 0;
     width: 100vw;
-    height: 33vh;
+    height: 20vh;
     background-color: #0C1E37;
     opacity: 0;
     transform: translateY(0);
@@ -89,7 +89,7 @@ body {
 .menu ul {
     list-style: none;
     display: flex;
-    gap: 3rem;
+    gap: 5rem;
     justify-content: center;
 }
 
@@ -97,7 +97,7 @@ body {
     color: white;
     font-family: 'Futura Medium', sans-serif;
     text-transform: uppercase;
-    font-size: clamp(1.25rem, 2vw, 1.75rem);
+    font-size: clamp(1rem, 1.5vw, 1.4rem);
     opacity: 0;
     transform: translateY(30px);
     transition: all 1s var(--soft-ease);
@@ -164,6 +164,13 @@ body {
     height: auto;
     z-index: -2;
     object-fit: cover;
+    opacity: 0;
+    animation: fadeInVideo 3s ease-in forwards;
+}
+
+@keyframes fadeInVideo {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 .video-overlay {
@@ -172,6 +179,6 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.85);
     z-index: -1;
 }
