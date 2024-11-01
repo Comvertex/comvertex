@@ -8,6 +8,7 @@ body {
     min-height: 100vh;
     background: white;
     overflow: hidden;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .content {
@@ -30,7 +31,7 @@ body {
 }
 
 .center-container.shifted {
-    transform: translateY(-16.5vh);
+    transform: translateY(-10vh);
 }
 
 .logo-container {
@@ -45,7 +46,8 @@ body {
 }
 
 .typewriter-text {
-    font-family: 'Futura Heavy', sans-serif;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
     font-size: clamp(1.125rem, 2vw, 1.5rem);
     opacity: 0;
     white-space: nowrap;
@@ -62,7 +64,7 @@ body {
 
 .blue-banner {
     position: fixed;
-    bottom: -33vh;
+    bottom: -20vh;
     left: 0;
     width: 100vw;
     height: 20vh;
@@ -76,6 +78,7 @@ body {
 .blue-banner.active {
     opacity: 1;
     bottom: 0;
+    transform: translateY(0);
 }
 
 .menu {
@@ -95,7 +98,8 @@ body {
 
 .menu li {
     color: white;
-    font-family: 'Futura Medium', sans-serif;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
     text-transform: uppercase;
     font-size: clamp(1rem, 1.5vw, 1.4rem);
     opacity: 0;
