@@ -66,12 +66,12 @@ body {
     position: fixed;
     bottom: -20vh;
     left: 0;
-    width: 100vw;
+    width: 100%;
     height: 20vh;
     background-color: #0C1E37;
     opacity: 0;
     transform: translateY(0);
-    transition: all 2.9s var(--soft-ease);
+    transition: bottom 2.9s var(--soft-ease), opacity 2.9s var(--soft-ease);
     z-index: 10;
 }
 
