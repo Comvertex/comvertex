@@ -1,81 +1,3 @@
-@font-face {
-    font-family: 'Futura Book';
-    src: url('fonts/Futura Book.otf') format('opentype');
-}
-
-@font-face {
-    font-family: 'Futura Heavy';
-    src: url('fonts/Futura Heavy.otf') format('opentype');
-}
-
-/* Keyframes for animations */
-@keyframes fadeInLogo {
-    0% {
-        opacity: 0;
-        transform: translateY(60px) scale(0.95);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-@keyframes slideInBlue {
-    0% {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-    100% {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
-@keyframes slideInRed {
-    0% {
-        transform: translateY(100%);
-        opacity: 0;
-    }
-    100% {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-@keyframes fadeInText {
-    0% {
-        opacity: 0;
-        transform: translateX(30px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-@keyframes fadeInTopText {
-    0% {
-        opacity: 0;
-        transform: translateX(30px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-@keyframes fadeInBottomText {
-    0% {
-        opacity: 0;
-        transform: translateX(30px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-/* Reset */
 * {
     margin: 0;
     padding: 0;
@@ -84,75 +6,38 @@
 
 body {
     min-height: 100vh;
-    background: #FFFFFF;
+    background: white;
     overflow: hidden;
-    position: relative;
-    font-family: 'Futura Book', sans-serif;
-}
-
-.background-container {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 33.33vw;
-    height: 100vh;
-}
-
-.blue-section {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #0C1E37;
-    display: flex;
-    align-items: center;
-    padding: 2rem;
-    opacity: 0;
-    animation: slideInBlue 2.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    animation-delay: 1.2s;
-}
-
-.blue-section h1 {
-    color: white;
-    font-family: 'Futura Heavy', sans-serif;
-    font-size: clamp(1.5rem, 2.5vw, 3rem);
-    line-height: 1.2;
-    opacity: 0;
-    animation: fadeInText 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    animation-delay: 2.4s;
-    padding-left: 3rem;
-}
-
-.red-section {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 100%;
-    height: 33vh;
-    background-color: #F14541;
-    opacity: 0;
-    animation: slideInRed 2.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    animation-delay: 2.4s;
-    z-index: 1;
-    display: flex;
-    align-items: center;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .content {
-    position: relative;
-    width: 66.67vw;
     height: 100vh;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+.center-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    transform: translateY(0);
+    transition: transform 2.9s var(--soft-ease);
+    text-align: center;
+}
+
+.center-container.shifted {
+    transform: translateY(-10vh);
 }
 
 .logo-container {
-    padding: 20px;
     width: clamp(200px, 50%, 220px);
     opacity: 0;
-    animation: fadeInLogo 2.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation: riseLogo 2.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .logo {
@@ -160,69 +45,144 @@ body {
     height: auto;
 }
 
-/* Optional: Add hover effects for interactive elements */
-.logo-container:hover {
-    transform: scale(1.02);
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Add media queries for extra refinement */
-@media screen and (max-width: 768px) {
-    .logo-container {
-        width: clamp(180px, 70%, 220px);
-    }
-    
-    .blue-section h1 {
-        font-size: clamp(1.25rem, 3vw, 2rem);
-        padding-left: 2rem;
-    }
-}
-
-@media screen and (max-width: 480px) {
-    .logo-container {
-        width: clamp(150px, 80%, 220px);
-    }
-    
-    .blue-section h1 {
-        font-size: clamp(1.125rem, 3.5vw, 1.5rem);
-        padding-left: 1.5rem;
-    }
-}
-
-.top-text {
-    color: white;
-    font-family: 'Futura Heavy', sans-serif;
-    font-size: clamp(1.5rem, 2.5vw, 3rem);
-    line-height: 1.2;
+.typewriter-text {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: clamp(1.125rem, 2vw, 1.5rem);
     opacity: 0;
-    animation: fadeInTopText 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    animation-delay: 2.4s;
-    padding-left: 3rem;
     white-space: nowrap;
+    overflow: hidden;
+    width: 0;
+    text-align: center;
+    margin: 0 auto;
 }
 
-.bottom-text {
-    color: white;
-    font-family: 'Futura Heavy', sans-serif;
-    font-size: clamp(1.5rem, 2.5vw, 3rem);
-    line-height: 1.2;
+.typewriter-text.active {
+    width: auto;
+    animation: typeWriter 1s steps(20) forwards, fadeInChars 1s ease-out forwards;
+}
+
+.blue-banner {
+    position: fixed;
+    bottom: -20vh;
+    left: 0;
+    width: 100%;
+    height: 20vh;
+    background-color: #0C1E37;
     opacity: 0;
-    animation: fadeInBottomText 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    animation-delay: 2.4s;
-    padding-left: 3rem;
-    white-space: nowrap;
+    transform: translateY(0);
+    transition: bottom 2.9s var(--soft-ease), opacity 2.9s var(--soft-ease);
+    z-index: 10;
 }
 
-@media screen and (max-width: 768px) {
-    .top-text, .bottom-text {
-        padding-left: 2rem;
-        font-size: clamp(1.25rem, 3vw, 2rem);
-    }
+.blue-banner.active {
+    opacity: 1;
+    bottom: 0;
+    transform: translateY(0);
 }
 
-@media screen and (max-width: 480px) {
-    .top-text, .bottom-text {
-        padding-left: 1.5rem;
-        font-size: clamp(1.125rem, 3.5vw, 1.5rem);
-    }
+.menu {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu ul {
+    list-style: none;
+    display: flex;
+    gap: 5rem;
+    justify-content: center;
+}
+
+.menu li {
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: clamp(1rem, 1.5vw, 1.4rem);
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 1s var(--soft-ease);
+    cursor: pointer;
+    letter-spacing: 0.15em;
+    position: relative;
+}
+
+.menu li:hover {
+    color: white;
+}
+
+.menu li.selected {
+    color: white;
+}
+
+.menu li::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -6px;
+    width: 0;
+    height: 2px;
+    background: white;
+    transition: width 0.3s ease,
+                opacity 0.3s ease;
+    transform: translateX(-50%);
+    opacity: 0;
+}
+
+.menu li:hover::after,
+.menu li.selected::after {
+    width: 100%;
+    opacity: 1;
+}
+
+@keyframes riseLogo {
+    0% { opacity: 0; transform: translateY(30px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes typeWriter {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+@keyframes fadeInChars {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Softer cubic-bezier curve for all major transitions */
+:root {
+    --soft-ease: cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.background-video {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -2;
+    object-fit: cover;
+    opacity: 0;
+    animation: fadeInVideo 3s ease-in forwards;
+}
+
+@keyframes fadeInVideo {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.video-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.85);
+    z-index: -1;
 }
