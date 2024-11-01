@@ -81,7 +81,7 @@ body {
     top: 0;
     right: 0;
     width: 100%;
-    height: 100%;
+    height: 67%;
     background-color: #0C1E37;
     display: flex;
     align-items: center;
@@ -99,12 +99,12 @@ body {
     opacity: 0;
     animation: fadeInText 2s ease-out forwards;
     animation-delay: 2.4s;
-    margin-top: 33vh;
+    margin: 0;
 }
 
 .red-section {
     position: absolute;
-    top: 0;
+    bottom: 0;
     right: 0;
     width: 100%;
     height: 33%;
@@ -112,7 +112,6 @@ body {
     opacity: 0;
     animation: slideInRed 2.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     animation-delay: 2s;
-    z-index: 1;
 }
 
 .content {
@@ -126,7 +125,7 @@ body {
 
 .logo-container {
     padding: 20px;
-    width: clamp(200px, 50%, 500px);
+    width: clamp(200px, 50%, 350px);
     opacity: 0;
     animation: fadeInLogo 2.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
@@ -145,7 +144,7 @@ body {
 /* Add media queries for extra refinement */
 @media screen and (max-width: 768px) {
     .logo-container {
-        width: clamp(180px, 70%, 400px);
+        width: clamp(180px, 70%, 300px);
     }
     
     .blue-section h1 {
@@ -155,7 +154,7 @@ body {
 
 @media screen and (max-width: 480px) {
     .logo-container {
-        width: clamp(150px, 80%, 300px);
+        width: clamp(150px, 80%, 250px);
     }
     
     .blue-section h1 {
