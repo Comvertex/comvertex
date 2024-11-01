@@ -7,17 +7,16 @@
     <link rel="stylesheet" href="test-styles.css">
 </head>
 <body>
-    <div class="video-container">
-        <div class="video-overlay"></div>
-        <video 
-            id="backgroundVideo" 
-            playsinline 
-            autoplay 
-            muted 
-            loop>
-            <source src="assets/background.mp4" type="video/mp4">
-        </video>
-    </div>
+    <video 
+        class="background-video" 
+        autoplay 
+        muted 
+        loop 
+        playsinline
+    >
+        <source src="assets/background.mp4" type="video/mp4">
+    </video>
+    <div class="video-overlay"></div>
 
     <main class="content">
         <div class="center-container">
