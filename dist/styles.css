@@ -112,8 +112,8 @@ body {
     transform: translateY(30px);
     transition: all 1s var(--soft-ease);
     cursor: pointer;
-    display: inline-block;
-    padding: 0 0.5rem;
+    text-align: center;
+    width: auto;
 }
 
 .menu li:hover {
@@ -127,18 +127,19 @@ body {
 .menu li::after {
     content: '';
     position: absolute;
-    left: 0;
+    left: 50%;
     bottom: -6px;
     width: 0;
     height: 1px;
     background: white;
     transition: width 0.3s ease, opacity 0.3s ease;
+    transform: translateX(-50%);
     opacity: 0;
 }
 
 .menu li:hover::after,
 .menu li.selected::after {
-    width: 100%;
+    width: calc(100% - 1rem);
     opacity: 1;
 }
 
@@ -200,7 +201,6 @@ body {
 
     .menu li {
         width: 45%;
-        text-align: center;
     }
 
     .menu li::after {
@@ -209,6 +209,6 @@ body {
 
     .menu li:hover::after,
     .menu li.selected::after {
-        width: 100%;
+        width: calc(100% - 2rem);
     }
 }
