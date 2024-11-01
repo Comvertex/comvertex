@@ -23,7 +23,7 @@ body {
     align-items: center;
     gap: 2rem;
     transform: translateX(0);
-    transition: transform 2.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 3.6s var(--soft-ease);
     text-align: center;
 }
 
@@ -61,19 +61,19 @@ body {
 .blue-banner {
     position: fixed;
     top: 0;
-    right: 0;
+    right: -33.33vw;
     width: 33.33vw;
     height: 100vh;
     background-color: #0C1E37;
     opacity: 0;
-    transform: translateX(100%);
-    transition: all 3.6s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateX(0);
+    transition: all 3.6s var(--soft-ease);
     z-index: 10;
 }
 
 .blue-banner.active {
     opacity: 1;
-    transform: translateX(0);
+    right: 0;
 }
 
 .menu {
@@ -81,6 +81,7 @@ body {
     display: flex;
     align-items: center;
     padding: 2rem;
+    padding-left: calc(33.33% + 2rem);
 }
 
 .menu ul {
@@ -96,7 +97,7 @@ body {
     margin-bottom: 1rem;
     opacity: 0;
     transform: translateX(30px);
-    transition: all 1s cubic-bezier(0.16, 1, 0.3, 1), 
+    transition: all 1s var(--soft-ease),
                 color 0.3s ease;
     cursor: pointer;
 }
@@ -122,4 +123,9 @@ body {
 @keyframes fadeInChars {
     from { opacity: 0; }
     to { opacity: 1; }
+}
+
+/* Softer cubic-bezier curve for all major transitions */
+:root {
+    --soft-ease: cubic-bezier(0.4, 0.0, 0.2, 1);
 }
