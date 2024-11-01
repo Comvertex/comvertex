@@ -1,0 +1,117 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background: white;
+    overflow: hidden;
+}
+
+.content {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.center-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    transition: transform 2.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.center-container.shifted {
+    transform: translateX(-16.665vw); /* Shifts to center of white area */
+}
+
+.logo-container {
+    width: clamp(200px, 50%, 220px);
+    opacity: 0;
+    transform: translateY(30px);
+    animation: riseLogo 2.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.logo {
+    width: 100%;
+    height: auto;
+}
+
+.slogan-container {
+    text-align: center;
+    font-family: 'Futura Heavy', sans-serif;
+    font-size: clamp(1.125rem, 2vw, 1.5rem);
+    line-height: 1.5;
+}
+
+.typewriter-text {
+    opacity: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 2px solid transparent;
+}
+
+.blue-banner {
+    position: fixed;
+    top: 0;
+    right: -33.33vw; /* Start off-screen */
+    width: 33.33vw;
+    height: 100vh;
+    background-color: #0C1E37;
+    transition: transform 2.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.menu {
+    position: relative;
+    padding: 4rem 2rem;
+    opacity: 0;
+}
+
+.menu ul {
+    list-style: none;
+}
+
+.menu li {
+    color: white;
+    font-family: 'Futura Book', sans-serif;
+    font-size: clamp(1rem, 1.5vw, 1.25rem);
+    margin-bottom: 1.5rem;
+    transform: translateX(30px);
+    opacity: 0;
+}
+
+@keyframes riseLogo {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes typeWriter {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes blinkCursor {
+    from { border-right-color: #0C1E37 }
+    to { border-right-color: transparent }
+}
+
+@keyframes fadeInMenu {
+    0% {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
