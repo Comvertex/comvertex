@@ -35,7 +35,7 @@ body {
 }
 
 .logo-container {
-    width: clamp(200px, 50%, 220px);
+    width: clamp(120px, 20vw, 220px);
     opacity: 0;
     animation: riseLogo 2.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
@@ -68,11 +68,13 @@ body {
     left: 0;
     width: 100%;
     height: 20vh;
-    background-color: #0C1E37;
+    background-color: rgba(12, 30, 55, 0.5);
+    backdrop-filter: blur(10px);
     opacity: 0;
     transform: translateY(0);
     transition: bottom 2.9s var(--soft-ease), opacity 2.9s var(--soft-ease);
     z-index: 10;
+    border-top: 1px solid rgba(255, 255, 255, 0.8);
 }
 
 .blue-banner.active {
@@ -92,8 +94,9 @@ body {
 .menu ul {
     list-style: none;
     display: flex;
-    gap: 5rem;
+    flex-wrap: wrap;
     justify-content: center;
+    gap: 5rem;
 }
 
 .menu li {
@@ -108,6 +111,8 @@ body {
     cursor: pointer;
     letter-spacing: 0.15em;
     position: relative;
+    width: 45%;
+    text-align: center;
 }
 
 .menu li:hover {
@@ -168,6 +173,7 @@ body {
     height: auto;
     z-index: -2;
     object-fit: cover;
+    object-position: center;
     opacity: 0;
     animation: fadeInVideo 3s ease-in forwards;
 }
@@ -183,6 +189,17 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.87);
     z-index: -1;
+}
+
+@media (max-width: 700px) {
+    .menu ul {
+        gap: 2rem;
+    }
+
+    .menu li {
+        width: 45%;
+        text-align: center;
+    }
 }
