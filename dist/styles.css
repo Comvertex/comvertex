@@ -25,10 +25,6 @@
         transform: translateX(40px);
         opacity: 0;
     }
-    50% {
-        transform: translateX(20px);
-        opacity: 0.5;
-    }
     100% {
         transform: translateX(0);
         opacity: 1;
@@ -39,10 +35,6 @@
     0% {
         transform: translateY(40px);
         opacity: 0;
-    }
-    50% {
-        transform: translateY(20px);
-        opacity: 0.5;
     }
     100% {
         transform: translateY(0);
@@ -95,7 +87,7 @@ body {
     align-items: center;
     padding: 2rem;
     opacity: 0;
-    animation: slideInBlue 1.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation: slideInBlue 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     animation-delay: 0.6s;
 }
 
@@ -117,7 +109,7 @@ body {
     height: 33%;
     background-color: #F14541;
     opacity: 0;
-    animation: slideInRed 1.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation: slideInRed 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     animation-delay: 1s;
 }
 
