@@ -61,16 +61,18 @@ body {
 .blue-banner {
     position: fixed;
     top: 0;
-    right: -33.33vw;
+    right: 0;
     width: 33.33vw;
     height: 100vh;
     background-color: #0C1E37;
     opacity: 0;
-    transition: transform 2.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 2.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateX(100%);
+    transition: transform 2.4s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 2.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .blue-banner.active {
-    transform: translateX(-100%);
+    transform: translateX(0);
     opacity: 1;
 }
 
