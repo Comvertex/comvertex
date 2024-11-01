@@ -1,3 +1,13 @@
+@font-face {
+    font-family: 'Futura Book';
+    src: url('fonts/Futura Book.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'Futura Heavy';
+    src: url('fonts/Futura Heavy.otf') format('opentype');
+}
+
 /* Reset */
 * {
     margin: 0;
@@ -10,6 +20,7 @@ body {
     background: white;
     overflow: hidden;
     position: relative;
+    font-family: 'Futura Book', sans-serif;
 }
 
 .background-container {
@@ -27,6 +38,16 @@ body {
     width: 100%;
     height: 67%;
     background-color: #0B1B33;
+    display: flex;
+    align-items: center;
+    padding: 2rem;
+}
+
+.blue-section h1 {
+    color: white;
+    font-family: 'Futura Heavy', sans-serif;
+    font-size: 2.5vw;
+    line-height: 1.2;
 }
 
 .red-section {
@@ -49,10 +70,11 @@ body {
 
 .logo-container {
     padding: 20px;
+    width: 50%;
+    max-width: 400px;
 }
 
 .logo {
-    max-width: 400px;
     width: 100%;
     height: auto;
 }
