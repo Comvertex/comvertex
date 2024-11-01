@@ -112,6 +112,8 @@ body {
     transform: translateY(30px);
     transition: all 1s var(--soft-ease);
     cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
 }
 
 .menu li:hover {
@@ -135,7 +137,7 @@ body {
 }
 
 .menu li:hover::after {
-    width: 80%;
+    width: 100%;
 }
 
 @keyframes riseLogo {
@@ -192,10 +194,23 @@ body {
     .menu ul {
         flex-wrap: wrap;
         gap: 2rem;
+        width: 100%;
     }
 
     .menu li {
         width: 45%;
         text-align: center;
+        display: flex;
+        justify-content: center;
+    }
+
+    .menu li::after {
+        width: 0;
+        left: 15%;
+        right: 15%;
+    }
+
+    .menu li:hover::after {
+        width: 70%;
     }
 }
