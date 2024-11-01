@@ -52,17 +52,40 @@ body {
     opacity: 0;
     overflow: hidden;
     white-space: nowrap;
-    border-right: 2px solid transparent;
+    width: 0;
+    display: inline-block;
+}
+
+.typewriter-text.active {
+    opacity: 1;
+    width: auto;
+    animation: 
+        typeWriter 1.5s steps(20) forwards,
+        blinkCursor 0.75s step-end infinite;
+}
+
+@keyframes typeWriter {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes blinkCursor {
+    from, to { border-right-color: transparent }
+    50% { border-right-color: #0C1E37 }
 }
 
 .blue-banner {
     position: fixed;
     top: 0;
-    right: -33.33vw; /* Start off-screen */
+    right: -33.33vw;
     width: 33.33vw;
     height: 100vh;
     background-color: #0C1E37;
     transition: transform 2.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.blue-banner.active {
+    transform: translateX(-100%);
 }
 
 .menu {
@@ -93,16 +116,6 @@ body {
         opacity: 1;
         transform: translateY(0);
     }
-}
-
-@keyframes typeWriter {
-    from { width: 0 }
-    to { width: 100% }
-}
-
-@keyframes blinkCursor {
-    from { border-right-color: #0C1E37 }
-    to { border-right-color: transparent }
 }
 
 @keyframes fadeInMenu {
