@@ -63,11 +63,24 @@ body {
 
 .logo-container {
     width: clamp(120px, 20vw, 220px);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+.logo-container.active {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .logo {
     width: 100%;
     height: auto;
+}
+
+.slogan-container {
+    text-align: center;
+    margin-top: 2rem;
 }
 
 .typewriter-text {
@@ -76,6 +89,16 @@ body {
     font-size: clamp(0.8rem, 1.4vw, 1.05rem);
     opacity: 0;
     white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+    display: inline-block;
+    transform: translateY(20px);
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+.typewriter-text.active {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .blue-banner {
