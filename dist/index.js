@@ -30,14 +30,14 @@ document.addEventListener('DOMContentLoaded', () => {
             line1Letters.forEach((letter, index) => {
                 setTimeout(() => {
                     letter.classList.add('active');
-                }, index * 70); // 30% faster (reduced from 100ms)
+                }, index * 50); // Reduced from 70ms
             });
 
             setTimeout(() => {
                 line2Letters.forEach((letter, index) => {
                     setTimeout(() => {
                         letter.classList.add('active');
-                    }, index * 70); // 30% faster
+                    }, index * 50); // Reduced from 70ms
                 });
 
                 setTimeout(() => {
@@ -48,10 +48,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         setTimeout(() => {
                             item.style.opacity = '1';
                             item.style.transform = 'translateY(0)';
-                        }, index * 200);
+                        }, index * 100); // Reduced from 200ms
                     });
-                }, line2Letters.length * 70 + 350); // Adjusted timing
-            }, line1Letters.length * 70 + 350); // Adjusted timing
-        }, 800);
+                }, 800); // Reduced delay
+            }, 1000); // Reduced delay
+        }, 300); // Start sooner
     }, 500);
 }); 

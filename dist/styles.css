@@ -66,7 +66,7 @@ body {
     width: clamp(120px, 20vw, 200px);
     opacity: 0;
     transform: translateY(50px);
-    animation: riseLogo 3.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    animation: riseLogo 2.4s cubic-bezier(0.23, 1, 0.32, 1) forwards;
     position: relative;
     z-index: 1;
 }
