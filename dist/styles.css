@@ -64,14 +64,15 @@ body {
 .logo-container {
     width: clamp(120px, 20vw, 220px);
     opacity: 0;
-    transform: translateY(120px);
+    transform: translateY(120px) scale(0.9);
+    transform-origin: center bottom;
     transition: opacity 3.6s cubic-bezier(0.16, 1, 0.3, 1),
                 transform 3.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .logo-container.active {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
 }
 
 .logo {
