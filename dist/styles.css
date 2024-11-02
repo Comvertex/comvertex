@@ -55,6 +55,7 @@ body {
     gap: 0.15rem;
     transform: translateY(0);
     transition: transform 2.9s var(--soft-ease);
+    position: relative;
 }
 
 .center-container.shifted {
@@ -63,6 +64,11 @@ body {
 
 .logo-container {
     width: clamp(120px, 20vw, 200px);
+    opacity: 0;
+    transform: translateY(50px);
+    animation: riseLogo 3.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    position: relative;
+    z-index: 1;
 }
 
 .logo-container.active {
@@ -72,6 +78,7 @@ body {
 .logo {
     width: 100%;
     height: auto;
+    display: block;
 }
 
 .logo-container.active .logo {
@@ -81,6 +88,8 @@ body {
 .slogan-container {
     text-align: center;
     margin-top: 0.25rem;
+    position: relative;
+    z-index: 0;
 }
 
 .typewriter-text {
@@ -216,5 +225,20 @@ body {
     100% {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+@keyframes riseLogo {
+    0% {
+        opacity: 0;
+        transform: translateY(50px) scale(0.95);
+    }
+    30% {
+        opacity: 0.3;
+        transform: translateY(40px) scale(0.97);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
     }
 }
