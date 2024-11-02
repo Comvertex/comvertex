@@ -22,28 +22,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const line1Letters = splitText(line1);
     const line2Letters = splitText(line2);
 
-    // Start animation sequence
+    // Start animation sequence with faster timing
     setTimeout(() => {
-        // Logo rise animation
         logoContainer.classList.add('active');
 
-        // Type first line
         setTimeout(() => {
             line1Letters.forEach((letter, index) => {
                 setTimeout(() => {
                     letter.classList.add('active');
-                }, index * 100); // 100ms between each letter
+                }, index * 70); // 30% faster (reduced from 100ms)
             });
 
-            // Type second line after first line completes
             setTimeout(() => {
                 line2Letters.forEach((letter, index) => {
                     setTimeout(() => {
                         letter.classList.add('active');
-                    }, index * 100);
+                    }, index * 70); // 30% faster
                 });
 
-                // Animate blue banner after typing completes
                 setTimeout(() => {
                     blueBanner.classList.add('active');
                     centerContainer.classList.add('shifted');
@@ -54,8 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             item.style.transform = 'translateY(0)';
                         }, index * 200);
                     });
-                }, line2Letters.length * 100 + 500);
-            }, line1Letters.length * 100 + 500);
-        }, 800); // Start typing after logo begins rising
+                }, line2Letters.length * 70 + 350); // Adjusted timing
+            }, line1Letters.length * 70 + 350); // Adjusted timing
+        }, 800);
     }, 500);
 }); 

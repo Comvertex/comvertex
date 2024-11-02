@@ -81,13 +81,13 @@ body {
 
 .slogan-container {
     text-align: center;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
 }
 
 .typewriter-text {
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
-    font-size: clamp(0.8rem, 1.4vw, 1.05rem);
+    font-size: clamp(0.64rem, 1.4vw, 1.05rem);
     white-space: nowrap;
     overflow: hidden;
     display: block;
@@ -97,12 +97,12 @@ body {
     display: inline-block;
     opacity: 0;
     transform: translateX(10px);
-    transition: opacity 0.1s ease-out, transform 0.2s ease-out;
-    margin-right: 0.1em;
+    transition: opacity 0.07s ease-out, transform 0.14s ease-out;
+    margin-right: 0.05em;
 }
 
 .letter.space {
-    margin-right: 0.5em;
+    margin-right: 0.25em;
 }
 
 .letter.active {
