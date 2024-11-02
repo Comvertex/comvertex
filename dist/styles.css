@@ -64,9 +64,9 @@ body {
 .logo-container {
     width: clamp(120px, 20vw, 220px);
     opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 2.4s cubic-bezier(0.16, 1, 0.3, 1),
-                transform 2.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateY(120px);
+    transition: opacity 3.6s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 3.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .logo-container.active {
@@ -81,7 +81,7 @@ body {
 
 .slogan-container {
     text-align: center;
-    margin-top: 2rem;
+    margin-top: 1rem;
 }
 
 .typewriter-text {
@@ -98,6 +98,11 @@ body {
     opacity: 0;
     transform: translateX(10px);
     transition: opacity 0.1s ease-out, transform 0.2s ease-out;
+    margin-right: 0.1em;
+}
+
+.letter.space {
+    margin-right: 0.5em;
 }
 
 .letter.active {

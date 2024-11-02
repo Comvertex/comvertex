@@ -6,14 +6,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const line2 = document.querySelector('.line2');
     const menuItems = document.querySelectorAll('.menu li');
 
-    // Split text into individual letters
+    // Modified splitText function to handle word spacing
     const splitText = (element) => {
         const text = element.textContent;
         element.textContent = '';
         return [...text].map(char => {
             const span = document.createElement('span');
-            span.className = 'letter';
-            span.textContent = char;
+            span.className = char === ' ' ? 'letter space' : 'letter';
+            span.textContent = char === ' ' ? '\u00A0' : char; // Use non-breaking space for spaces
             element.appendChild(span);
             return span;
         });
