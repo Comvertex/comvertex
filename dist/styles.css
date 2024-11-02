@@ -4,20 +4,46 @@
     box-sizing: border-box;
 }
 
+:root {
+    --soft-ease: cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
 body {
     min-height: 100vh;
     background: white;
     overflow: hidden;
-    font-family: 'Montserrat', sans-serif;
+}
+
+.background-video {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -2;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0;
+    animation: fadeInVideo 3s ease-in forwards;
+}
+
+.video-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.87);
+    z-index: -1;
 }
 
 .content {
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative;
-    z-index: 1;
 }
 
 .center-container {
@@ -27,7 +53,6 @@ body {
     gap: 2rem;
     transform: translateY(0);
     transition: transform 2.9s var(--soft-ease);
-    text-align: center;
 }
 
 .center-container.shifted {
@@ -36,8 +61,6 @@ body {
 
 .logo-container {
     width: clamp(120px, 20vw, 220px);
-    opacity: 0;
-    animation: riseLogo 2.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .logo {
@@ -51,15 +74,6 @@ body {
     font-size: clamp(0.8rem, 1.4vw, 1.05rem);
     opacity: 0;
     white-space: nowrap;
-    overflow: hidden;
-    width: 0;
-    text-align: center;
-    margin: 0 auto;
-}
-
-.typewriter-text.active {
-    width: auto;
-    animation: typeWriter 1s steps(20) forwards, fadeInChars 1s ease-out forwards;
 }
 
 .blue-banner {
@@ -80,12 +94,10 @@ body {
 .blue-banner.active {
     opacity: 1;
     bottom: 0;
-    transform: translateY(0);
 }
 
 .menu {
     height: 100%;
-    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -93,11 +105,9 @@ body {
 
 .menu ul {
     display: flex;
-    flex-wrap: nowrap;
     justify-content: center;
     gap: 5rem;
     list-style: none;
-    padding: 0;
 }
 
 .menu li {
@@ -116,14 +126,6 @@ body {
     justify-content: center;
 }
 
-.menu li:hover {
-    color: white;
-}
-
-.menu li.selected {
-    color: white;
-}
-
 .menu li::after {
     content: '';
     position: absolute;
@@ -133,61 +135,13 @@ body {
     height: 1px;
     background-color: white;
     transform: translateX(-50%);
-    transition: width 0.3s ease;
+    transition: width 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
 }
 
 .menu li:hover::after {
     width: 100%;
-}
-
-@keyframes riseLogo {
-    0% { opacity: 0; transform: translateY(30px); }
-    100% { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes typeWriter {
-    from { width: 0; }
-    to { width: 100%; }
-}
-
-@keyframes fadeInChars {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-/* Softer cubic-bezier curve for all major transitions */
-:root {
-    --soft-ease: cubic-bezier(0.4, 0.0, 0.2, 1);
-}
-
-.background-video {
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    min-width: 100%;
-    min-height: 100%;
-    width: auto;
-    height: auto;
-    z-index: -2;
-    object-fit: cover;
-    object-position: center;
-    opacity: 0;
-    animation: fadeInVideo 3s ease-in forwards;
-}
-
-@keyframes fadeInVideo {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-.video-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.87);
-    z-index: -1;
+    opacity: 1;
 }
 
 @media (max-width: 700px) {
@@ -206,11 +160,17 @@ body {
 
     .menu li::after {
         width: 0;
-        left: 15%;
-        right: 15%;
+        left: 50%;
+        transform: translateX(-50%);
     }
 
     .menu li:hover::after {
-        width: 70%;
+        width: 60%;
+        opacity: 1;
     }
+}
+
+@keyframes fadeInVideo {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
