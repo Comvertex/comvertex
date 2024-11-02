@@ -63,7 +63,6 @@ body {
 
 .logo-container {
     width: clamp(120px, 20vw, 220px);
-    opacity: 0;
 }
 
 .logo-container.active {
@@ -73,9 +72,9 @@ body {
 .logo {
     width: 100%;
     height: auto;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 100%, black 100%);
-    mask-image: linear-gradient(to bottom, transparent 100%, black 100%);
-    animation: fillLogo 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    opacity: 0;
+    will-change: clip-path, opacity;
+    animation: fillLogo 4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .logo-container.active .logo {
@@ -214,11 +213,15 @@ body {
 
 @keyframes fillLogo {
     0% {
-        -webkit-mask-image: linear-gradient(to bottom, transparent 100%, black 100%);
-        mask-image: linear-gradient(to bottom, transparent 100%, black 100%);
+        opacity: 0;
+        clip-path: inset(0 0 100% 0);
+    }
+    30% {
+        opacity: 1;
+        clip-path: inset(0 0 100% 0);
     }
     100% {
-        -webkit-mask-image: linear-gradient(to bottom, black 100%, black 100%);
-        mask-image: linear-gradient(to bottom, black 100%, black 100%);
+        opacity: 1;
+        clip-path: inset(0 0 0 0);
     }
 }
