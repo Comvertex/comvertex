@@ -16,15 +16,17 @@ body {
 
 .background-video {
     position: fixed;
-    top: 50%;
-    left: 50%;
+    right: 0;
+    bottom: 0;
     min-width: 100%;
     min-height: 100%;
     width: auto;
     height: auto;
     z-index: -2;
     object-fit: cover;
-    transform: translate(-50%, -50%);
+    object-position: center center;
+    left: 50%;
+    transform: translateX(-50%);
     opacity: 0;
     animation: fadeInVideo 3s ease-in forwards;
 }
