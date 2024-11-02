@@ -62,7 +62,7 @@ body {
 }
 
 .logo-container {
-    width: clamp(120px, 20vw, 220px);
+    width: clamp(120px, 20vw, 200px);
 }
 
 .logo-container.active {
@@ -74,7 +74,7 @@ body {
     height: auto;
     opacity: 0;
     will-change: opacity, transform;
-    animation: revealLogo 3.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation: revealLogo 3.2s cubic-bezier(0.4, 0, 0.68, 0.06) forwards;
 }
 
 .logo-container.active .logo {
