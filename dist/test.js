@@ -61,20 +61,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 500);
 
     // Video crossfade logic
-    const crossfadeVideos = (fromVideo, toVideo) => {
-        setTimeout(() => {
-            toVideo.currentTime = 0;
-            toVideo.play();
-            toVideo.style.opacity = 1;
-            fromVideo.style.opacity = 0;
-        }, fromVideo.duration * 1000 - 5000); // Start 5 seconds before fromVideo ends
-    };
-
     video1.addEventListener('play', () => {
-        crossfadeVideos(video1, video2);
+        setTimeout(() => {
+            video2.currentTime = 0;
+            video2.play();
+            video2.style.opacity = 1;
+        }, video1.duration * 1000 - 5000); // Start 5 seconds before video1 ends
     });
 
-    video2.addEventListener('play', () => {
-        crossfadeVideos(video2, video1);
+    video2.addEventListener('ended', () => {
+        video1.currentTime = 0;
+        video1.play();
+        video1.style.opacity = 1;
+        video2.style.opacity = 0;
     });
-}); 
+});
