@@ -60,12 +60,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 300); // Start sooner
     }, 500);
 
+    // Video crossfade logic
     video1.addEventListener('play', () => {
         setTimeout(() => {
             video2.currentTime = 0;
             video2.play();
             video2.style.opacity = 1;
-        }, video1.duration * 1000 - 1000); // Start 1 second before video1 ends
+        }, video1.duration * 1000 - 5000); // Start 5 seconds before video1 ends
     });
 
     video2.addEventListener('ended', () => {
