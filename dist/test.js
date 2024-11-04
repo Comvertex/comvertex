@@ -61,23 +61,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 500);
 
     // Video crossfade logic
-    video1.addEventListener('play', () => {
-        setTimeout(() => {
-            video2.currentTime = 0;
-            video2.play();
-            video2.style.opacity = 1;
-        }, video1.duration * 1000 - 5000); // Start 5 seconds before video1 ends
-    });
+    const setupVideoTransitions = (currentVideo, nextVideo) => {
+        currentVideo.addEventListener('play', () => {
+            setTimeout(() => {
+                nextVideo.currentTime = 0;
+                nextVideo.play();
+                nextVideo.style.opacity = 1;
+                currentVideo.style.opacity = 0;
+            }, 20000); // 25 seconds total - 5 seconds fade out
+        });
+    };
 
-    video2.addEventListener('ended', () => {
-        video1.currentTime = 0;
-        video1.play();
-    });
+    // Set up transitions
+    setupVideoTransitions(video1, video2);
+    setupVideoTransitions(video2, video1);
 
-    // Ensure video2 fades out over 5 seconds
-    video2.addEventListener('timeupdate', () => {
-        if (video2.currentTime >= video2.duration - 5) {
-            video2.style.opacity = 1 - (video2.currentTime - (video2.duration - 5)) / 5;
-        }
-    });
+    // Start the first video
+    video1.play();
 });
