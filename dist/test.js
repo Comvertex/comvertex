@@ -8,6 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const video1 = document.getElementById('video1');
     const video2 = document.getElementById('video2');
 
+    // Ensure video1 is visible on load
+    video1.style.opacity = 1;
+
     // Modified splitText function to handle word spacing
     const splitText = (element) => {
         const text = element.textContent;
