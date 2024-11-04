@@ -69,10 +69,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }, video1.duration * 1000 - 5000); // Start 5 seconds before video1 ends
     });
 
-    video2.addEventListener('ended', () => {
-        video1.currentTime = 0;
-        video1.play();
-        video1.style.opacity = 1;
-        video2.style.opacity = 0;
+    video2.addEventListener('play', () => {
+        setTimeout(() => {
+            video1.currentTime = 0;
+            video1.play();
+            video1.style.opacity = 1;
+            video2.style.opacity = 0;
+        }, video2.duration * 1000 - 5000); // Start 5 seconds before video2 ends
     });
 }); 
