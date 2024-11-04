@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const line1 = document.querySelector('.line1');
     const line2 = document.querySelector('.line2');
     const menuItems = document.querySelectorAll('.menu li');
+    const video1 = document.getElementById('video1');
+    const video2 = document.getElementById('video2');
 
     // Modified splitText function to handle word spacing
     const splitText = (element) => {
@@ -54,4 +56,19 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 1000); // Reduced delay
         }, 300); // Start sooner
     }, 500);
+
+    video1.addEventListener('play', () => {
+        setTimeout(() => {
+            video2.currentTime = 0;
+            video2.play();
+            video2.style.opacity = 1;
+        }, video1.duration * 1000 - 1000); // Start 1 second before video1 ends
+    });
+
+    video2.addEventListener('ended', () => {
+        video1.currentTime = 0;
+        video1.play();
+        video1.style.opacity = 1;
+        video2.style.opacity = 0;
+    });
 }); 
