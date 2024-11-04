@@ -72,7 +72,16 @@ document.addEventListener('DOMContentLoaded', () => {
     video2.addEventListener('ended', () => {
         video1.currentTime = 0;
         video1.play();
-        video1.style.opacity = 1;
-        video2.style.opacity = 0;
+        setTimeout(() => {
+            video1.style.opacity = 1;
+            video2.style.opacity = 0;
+        }, 5000); // Smooth transition back to video1
+    });
+
+    // Ensure video2 fades out over 5 seconds
+    video2.addEventListener('timeupdate', () => {
+        if (video2.currentTime >= video2.duration - 5) {
+            video2.style.opacity = 1 - (video2.currentTime - (video2.duration - 5)) / 5;
+        }
     });
 });
