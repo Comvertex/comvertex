@@ -91,4 +91,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         document.getElementById('consent-banner').style.display = 'none';
     });
+
+    window.onload = function() {
+        document.getElementById('consent-banner').classList.add('show');
+    };
+
+    document.getElementById('accept-all').addEventListener('click', function() {
+        document.getElementById('consent-banner').style.display = 'none';
+        // Add logic to handle consent acceptance
+    });
+
+    document.getElementById('decline-all').addEventListener('click', function() {
+        document.getElementById('consent-banner').style.display = 'none';
+        // Add logic to handle consent decline
+    });
 }); 

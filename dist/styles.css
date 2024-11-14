@@ -244,16 +244,24 @@ body {
     bottom: 0;
     left: 0;
     width: 100%;
-    background-color: white;
+    background-color: #fff;
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
     z-index: 1000;
+    font-family: 'Montserrat', sans-serif;
+    transition: transform 0.3s ease-in-out;
+    transform: translateY(100%);
+}
+
+.consent-banner.show {
+    transform: translateY(0);
 }
 
 .consent-content {
-    max-width: 600px;
+    max-width: 800px;
     margin: 0 auto;
     text-align: center;
+    color: #0C1E37;
 }
 
 .consent-options {
@@ -271,12 +279,20 @@ body {
     padding: 10px 20px;
     border: none;
     cursor: pointer;
+    background-color: #0C1E37;
+    color: #fff;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.consent-buttons button:hover {
+    background-color: #0A172B;
 }
 
 .show-details {
     display: block;
     margin-top: 10px;
-    color: blue;
+    color: #0C1E37;
     text-decoration: underline;
     cursor: pointer;
 }
