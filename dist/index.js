@@ -93,16 +93,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     window.onload = function() {
-        document.getElementById('consent-banner').classList.add('show');
+        // Check if consent has already been given
+        if (!localStorage.getItem('consentGiven')) {
+            document.getElementById('consent-banner').classList.add('show');
+        }
     };
 
     document.getElementById('accept-all').addEventListener('click', function() {
+        // Handle consent acceptance
+        localStorage.setItem('consentGiven', 'accepted');
         document.getElementById('consent-banner').style.display = 'none';
-        // Add logic to handle consent acceptance
+        // Add logic to enable tracking
     });
 
     document.getElementById('decline-all').addEventListener('click', function() {
+        // Handle consent decline
+        localStorage.setItem('consentGiven', 'declined');
         document.getElementById('consent-banner').style.display = 'none';
-        // Add logic to handle consent decline
+        // Add logic to disable tracking
     });
 }); 
