@@ -93,23 +93,30 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     window.onload = function() {
-        // Check if consent has already been given
         if (!localStorage.getItem('consentGiven')) {
             document.getElementById('consent-banner').classList.add('show');
         }
     };
 
-    document.getElementById('accept-all').addEventListener('click', function() {
-        // Handle consent acceptance
-        localStorage.setItem('consentGiven', 'accepted');
+    document.getElementById('allow-all').addEventListener('click', function() {
+        localStorage.setItem('consentGiven', 'all');
         document.getElementById('consent-banner').style.display = 'none';
-        // Add logic to enable tracking
+        // Enable all tracking
     });
 
-    document.getElementById('decline-all').addEventListener('click', function() {
-        // Handle consent decline
-        localStorage.setItem('consentGiven', 'declined');
+    document.getElementById('only-selected').addEventListener('click', function() {
+        const functional = document.getElementById('functional-consent').checked;
+        const statistical = document.getElementById('statistical-consent').checked;
+        const marketing = document.getElementById('marketing-consent').checked;
+
+        localStorage.setItem('consentGiven', JSON.stringify({ functional, statistical, marketing }));
         document.getElementById('consent-banner').style.display = 'none';
-        // Add logic to disable tracking
+        // Enable tracking based on selections
+    });
+
+    document.getElementById('deny-all').addEventListener('click', function() {
+        localStorage.setItem('consentGiven', 'none');
+        document.getElementById('consent-banner').style.display = 'none';
+        // Disable all tracking
     });
 }); 

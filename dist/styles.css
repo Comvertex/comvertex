@@ -283,22 +283,32 @@ body {
     transition: background-color 0.3s, transform 0.3s;
 }
 
-#accept-all {
+#allow-all {
     background-color: #0C1E37;
     color: #fff;
 }
 
-#accept-all:hover {
+#allow-all:hover {
     background-color: #0A172B;
     transform: scale(1.05);
 }
 
-#decline-all {
+#only-selected {
     background-color: #f0f0f0;
     color: #0C1E37;
 }
 
-#decline-all:hover {
+#only-selected:hover {
+    background-color: #e0e0e0;
+    transform: scale(1.05);
+}
+
+#deny-all {
+    background-color: #f0f0f0;
+    color: #0C1E37;
+}
+
+#deny-all:hover {
     background-color: #e0e0e0;
     transform: scale(1.05);
 }
