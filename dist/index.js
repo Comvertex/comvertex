@@ -74,36 +74,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Accept all button
-    document.getElementById('accept-all').addEventListener('click', function() {
+    // Check if consent has already been given
+    if (!localStorage.getItem('consentGiven')) {
+        document.getElementById('consent-banner').classList.add('show');
+    }
+
+    // Allow all button
+    document.getElementById('allow-all').addEventListener('click', function() {
         document.querySelectorAll('.consent-options input').forEach(input => {
             input.checked = true;
             updateConsentStatus(input.parentElement.querySelector('label').innerText, true);
         });
-        document.getElementById('consent-banner').style.display = 'none';
-    });
-
-    // Decline all button
-    document.getElementById('decline-all').addEventListener('click', function() {
-        document.querySelectorAll('.consent-options input').forEach(input => {
-            input.checked = false;
-            updateConsentStatus(input.parentElement.querySelector('label').innerText, false);
-        });
-        document.getElementById('consent-banner').style.display = 'none';
-    });
-
-    window.onload = function() {
-        if (!localStorage.getItem('consentGiven')) {
-            document.getElementById('consent-banner').classList.add('show');
-        }
-    };
-
-    document.getElementById('allow-all').addEventListener('click', function() {
         localStorage.setItem('consentGiven', 'all');
         document.getElementById('consent-banner').style.display = 'none';
         // Enable all tracking
     });
 
+    // Only selected button
     document.getElementById('only-selected').addEventListener('click', function() {
         const functional = document.getElementById('functional-consent').checked;
         const statistical = document.getElementById('statistical-consent').checked;
@@ -114,7 +101,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // Enable tracking based on selections
     });
 
+    // Deny all button
     document.getElementById('deny-all').addEventListener('click', function() {
+        document.querySelectorAll('.consent-options input').forEach(input => {
+            input.checked = false;
+            updateConsentStatus(input.parentElement.querySelector('label').innerText, false);
+        });
         localStorage.setItem('consentGiven', 'none');
         document.getElementById('consent-banner').style.display = 'none';
         // Disable all tracking
