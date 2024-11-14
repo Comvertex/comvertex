@@ -54,4 +54,41 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 1000); // Reduced delay
         }, 300); // Start sooner
     }, 500);
+
+    // Initialize dataLayer if not already initialized
+    window.dataLayer = window.dataLayer || [];
+
+    // Function to update consent status
+    function updateConsentStatus(consentType, status) {
+        window.dataLayer.push({
+            event: 'consent_update',
+            consentType: consentType,
+            consentStatus: status
+        });
+    }
+
+    // Event listeners for each consent option
+    document.querySelectorAll('.consent-options input').forEach(input => {
+        input.addEventListener('change', function() {
+            updateConsentStatus(this.parentElement.querySelector('label').innerText, this.checked);
+        });
+    });
+
+    // Accept all button
+    document.getElementById('accept-all').addEventListener('click', function() {
+        document.querySelectorAll('.consent-options input').forEach(input => {
+            input.checked = true;
+            updateConsentStatus(input.parentElement.querySelector('label').innerText, true);
+        });
+        document.getElementById('consent-banner').style.display = 'none';
+    });
+
+    // Decline all button
+    document.getElementById('decline-all').addEventListener('click', function() {
+        document.querySelectorAll('.consent-options input').forEach(input => {
+            input.checked = false;
+            updateConsentStatus(input.parentElement.querySelector('label').innerText, false);
+        });
+        document.getElementById('consent-banner').style.display = 'none';
+    });
 }); 

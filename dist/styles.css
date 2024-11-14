@@ -238,3 +238,45 @@ body {
         transform: translateY(0) scale(1);
     }
 }
+
+.consent-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    z-index: 1000;
+}
+
+.consent-content {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.consent-options {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+}
+
+.consent-buttons {
+    margin: 20px 0;
+}
+
+.consent-buttons button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.show-details {
+    display: block;
+    margin-top: 10px;
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
