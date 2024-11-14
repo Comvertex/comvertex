@@ -244,13 +244,18 @@ body {
     bottom: 0;
     left: 0;
     width: 100%;
-    background-color: #fff;
+    background-color: #0C1E37;
+    color: #fff;
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
     z-index: 1000;
     font-family: 'Montserrat', sans-serif;
     transition: transform 0.6s ease-in-out;
     transform: translateY(100%);
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .consent-banner.show {
@@ -261,7 +266,6 @@ body {
     max-width: 800px;
     margin: 0 auto;
     text-align: center;
-    color: #0C1E37;
 }
 
 .consent-options {
@@ -284,33 +288,27 @@ body {
 }
 
 #allow-all {
-    background-color: #0C1E37;
-    color: #fff;
+    background-color: #fff;
+    color: #0C1E37;
 }
 
 #allow-all:hover {
-    background-color: #0A172B;
-    transform: scale(1.05);
-}
-
-#only-selected {
-    background-color: #f0f0f0;
-    color: #0C1E37;
-}
-
-#only-selected:hover {
     background-color: #e0e0e0;
     transform: scale(1.05);
 }
 
-#deny-all {
+#only-selected, #deny-all {
     background-color: #f0f0f0;
     color: #0C1E37;
 }
 
-#deny-all:hover {
+#only-selected:hover, #deny-all:hover {
     background-color: #e0e0e0;
     transform: scale(1.05);
+}
+
+.consent-options input[type="checkbox"] {
+    accent-color: #0A172B;
 }
 
 .show-details {
