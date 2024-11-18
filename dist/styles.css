@@ -99,6 +99,7 @@ body {
     white-space: nowrap;
     overflow: hidden;
     display: block;
+    color: #0C1E37;
 }
 
 .letter {
@@ -124,7 +125,7 @@ body {
     left: 0;
     width: 100%;
     height: 20vh;
-    background-color: #00153191;
+    background-color: #0c1e377a;
     backdrop-filter: blur(5px);
     opacity: 0;
     transform: translateY(0);
@@ -154,7 +155,11 @@ body {
 
 .menu li {
     position: relative;
-    color: white;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    mix-blend-mode: overlay;
+    font-weight: 600;
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
     text-transform: uppercase;
@@ -331,7 +336,7 @@ body {
     font-family: 'Montserrat', sans-serif;
     transform: translateY(100%);
     opacity: 0;
-    transition: all 0.4s ease;
+    transition: all 0.3s ease;
     z-index: 9999;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }

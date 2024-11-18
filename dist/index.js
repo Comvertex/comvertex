@@ -235,53 +235,48 @@ document.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('load', function() {
     setTimeout(() => {
         const modal = document.getElementById('consent-modal');
-        const acceptAllBtn = document.getElementById('accept-all');
-        const managePrefsBtn = document.getElementById('manage-preferences');
-        const rejectAllBtn = document.getElementById('reject-all');
+        
+        // Handle all clicks through event delegation
+        document.addEventListener('click', function(e) {
+            // Only handle clicks if the modal exists
+            if (!modal) return;
 
-        if (!modal) {
-            console.error('Modal not found');
-            return;
-        }
-
-        // Show modal if no consent
-        const hasConsent = document.cookie.split(';').some(c => 
-            c.trim().startsWith('site_functional=') || 
-            c.trim().startsWith('site_marketing=')
-        );
-
-        if (!hasConsent) {
-            modal.classList.add('show');
-        }
-
-        // Safely add event listeners only if elements exist
-        if (acceptAllBtn) {
-            acceptAllBtn.addEventListener('click', function() {
+            if (e.target.id === 'accept-all') {
                 const expires = new Date();
                 expires.setDate(expires.getDate() + 365);
                 document.cookie = `site_functional=allow; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
                 document.cookie = `site_marketing=allow; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
                 modal.classList.remove('show');
-            });
-        }
-
-        if (managePrefsBtn) {
-            managePrefsBtn.addEventListener('click', function() {
-                document.getElementById('consent-preferences').style.display = 'block';
-                managePrefsBtn.style.display = 'none';
-                document.getElementById('save-preferences').style.display = 'inline-block';
-                rejectAllBtn.style.display = 'none';
-            });
-        }
-
-        if (rejectAllBtn) {
-            rejectAllBtn.addEventListener('click', function() {
+            }
+            
+            if (e.target.id === 'manage-preferences') {
+                const prefsDiv = document.getElementById('consent-preferences');
+                const saveBtn = document.getElementById('save-preferences');
+                const rejectBtn = document.getElementById('reject-all');
+                
+                if (prefsDiv) prefsDiv.style.display = 'block';
+                if (e.target) e.target.style.display = 'none';
+                if (saveBtn) saveBtn.style.display = 'inline-block';
+                if (rejectBtn) rejectBtn.style.display = 'none';
+            }
+            
+            if (e.target.id === 'reject-all') {
                 const expires = new Date();
                 expires.setDate(expires.getDate() + 365);
                 document.cookie = `site_functional=allow; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
                 document.cookie = `site_marketing=deny; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
                 modal.classList.remove('show');
-            });
+            }
+        });
+
+        // Check consent status
+        const hasConsent = document.cookie.split(';').some(c => 
+            c.trim().startsWith('site_functional=') || 
+            c.trim().startsWith('site_marketing=')
+        );
+
+        if (!hasConsent && modal) {
+            modal.classList.add('show');
         }
     }, 2000);
 }); 
