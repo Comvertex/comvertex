@@ -112,34 +112,53 @@ document.addEventListener('DOMContentLoaded', () => {
         // Disable all tracking
     });
 
+    // First, let's separate the cookie consent code completely
     class CookieConsent {
         constructor() {
-            console.log('CookieConsent initializing...'); // Debug log
-            this.modal = document.getElementById('consent-modal');
-            if (!this.modal) {
-                console.error('Consent modal element not found!'); // Debug log
-                return;
+            // Wait for DOM to be fully loaded
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', () => this.init());
+            } else {
+                this.init();
             }
-            this.preferencesDiv = document.getElementById('consent-preferences');
-            this.marketingToggle = document.getElementById('marketing-toggle');
-            
-            this.initializeButtons();
-            this.checkConsentStatus();
-            console.log('CookieConsent initialized'); // Debug log
         }
 
-        initializeButtons() {
-            document.getElementById('accept-all').addEventListener('click', () => this.handleAcceptAll());
-            document.getElementById('manage-preferences').addEventListener('click', () => this.showPreferences());
-            document.getElementById('save-preferences').addEventListener('click', () => this.savePreferences());
-            document.getElementById('reject-all').addEventListener('click', () => this.handleRejectAll());
+        init() {
+            try {
+                this.modal = document.getElementById('consent-modal');
+                if (!this.modal) {
+                    console.error('Consent modal not found');
+                    return;
+                }
+
+                this.preferencesDiv = document.getElementById('consent-preferences');
+                this.marketingToggle = document.getElementById('marketing-toggle');
+                
+                // Initialize buttons
+                const acceptAll = document.getElementById('accept-all');
+                const managePrefs = document.getElementById('manage-preferences');
+                const savePrefs = document.getElementById('save-preferences');
+                const rejectAll = document.getElementById('reject-all');
+
+                if (acceptAll) acceptAll.addEventListener('click', () => this.handleAcceptAll());
+                if (managePrefs) managePrefs.addEventListener('click', () => this.showPreferences());
+                if (savePrefs) savePrefs.addEventListener('click', () => this.savePreferences());
+                if (rejectAll) rejectAll.addEventListener('click', () => this.handleRejectAll());
+
+                // Check consent status after a delay
+                setTimeout(() => this.checkConsentStatus(), 2000);
+            } catch (error) {
+                console.error('Error initializing cookie consent:', error);
+            }
         }
 
         showPreferences() {
-            this.preferencesDiv.style.display = 'block';
-            document.getElementById('manage-preferences').style.display = 'none';
-            document.getElementById('save-preferences').style.display = 'inline-block';
-            document.getElementById('reject-all').style.display = 'none';
+            if (this.preferencesDiv) {
+                this.preferencesDiv.style.display = 'block';
+                document.getElementById('manage-preferences').style.display = 'none';
+                document.getElementById('save-preferences').style.display = 'inline-block';
+                document.getElementById('reject-all').style.display = 'none';
+            }
         }
 
         handleAcceptAll() {
@@ -150,65 +169,75 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         handleRejectAll() {
-            this.setConsent('functional', true); // Always needed
+            this.setConsent('functional', true);
             this.setConsent('marketing', false);
             this.updateGTMConsent(false);
             this.hideModal();
         }
 
         savePreferences() {
-            this.setConsent('functional', true);
-            this.setConsent('marketing', this.marketingToggle.checked);
-            this.updateGTMConsent(this.marketingToggle.checked);
-            this.hideModal();
+            if (this.marketingToggle) {
+                this.setConsent('functional', true);
+                this.setConsent('marketing', this.marketingToggle.checked);
+                this.updateGTMConsent(this.marketingToggle.checked);
+                this.hideModal();
+            }
         }
 
         setConsent(type, value) {
-            const expires = new Date();
-            expires.setDate(expires.getDate() + 365);
-            document.cookie = `site_${type}=${value ? 'allow' : 'deny'}; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
+            try {
+                const expires = new Date();
+                expires.setDate(expires.getDate() + 365);
+                document.cookie = `site_${type}=${value ? 'allow' : 'deny'}; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
+            } catch (error) {
+                console.error('Error setting consent:', error);
+            }
         }
 
         updateGTMConsent(allowed) {
-            window.dataLayer = window.dataLayer || [];
-            window.dataLayer.push({
-                'event': 'consent_update',
-                'consent': {
-                    'functionality_storage': 'granted',
-                    'analytics_storage': allowed ? 'granted' : 'denied',
-                    'ad_storage': allowed ? 'granted' : 'denied',
-                    'ad_user_data': allowed ? 'granted' : 'denied',
-                    'ad_personalization': allowed ? 'granted' : 'denied'
-                }
-            });
+            try {
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push({
+                    'event': 'consent_update',
+                    'consent': {
+                        'functionality_storage': 'granted',
+                        'analytics_storage': allowed ? 'granted' : 'denied',
+                        'ad_storage': allowed ? 'granted' : 'denied',
+                        'ad_user_data': allowed ? 'granted' : 'denied',
+                        'ad_personalization': allowed ? 'granted' : 'denied'
+                    }
+                });
+            } catch (error) {
+                console.error('Error updating GTM consent:', error);
+            }
         }
 
         checkConsentStatus() {
-            console.log('Checking consent status...'); // Debug log
-            const hasConsent = document.cookie.split(';').some(c => 
-                c.trim().startsWith('site_functional=') || 
-                c.trim().startsWith('site_marketing=')
-            );
-            
-            console.log('Has consent:', hasConsent); // Debug log
-            
-            if (!hasConsent) {
-                console.log('Showing consent modal...'); // Debug log
-                setTimeout(() => {
+            try {
+                const hasConsent = document.cookie.split(';').some(c => 
+                    c.trim().startsWith('site_functional=') || 
+                    c.trim().startsWith('site_marketing=')
+                );
+                
+                if (!hasConsent && this.modal) {
                     this.modal.classList.add('show');
-                }, 100);
+                }
+            } catch (error) {
+                console.error('Error checking consent status:', error);
             }
         }
 
         hideModal() {
-            this.modal.classList.remove('show');
+            if (this.modal) {
+                this.modal.classList.remove('show');
+            }
         }
     }
 
-    // Initialize cookie consent with a longer delay
-    console.log('Setting up consent timeout...'); // Debug log
-    setTimeout(() => {
-        console.log('Initializing consent...'); // Debug log
-        new CookieConsent();
-    }, 4000); // Increased delay to 4 seconds
+    // Initialize cookie consent separately from other scripts
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            new CookieConsent();
+        }, 2000);
+    });
 }); 
