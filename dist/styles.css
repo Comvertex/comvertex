@@ -250,7 +250,7 @@ body {
 
 .consent-banner {
     position: fixed;
-    bottom: 0;
+    bottom: -100%;
     left: 0;
     width: 100%;
     background: white;
@@ -260,6 +260,13 @@ body {
     z-index: 100;
     font-family: 'Montserrat', sans-serif;
     text-align: center;
+    opacity: 0;
+    transition: bottom 1s ease, opacity 1s ease;
+}
+
+.consent-banner.visible {
+    bottom: 0;
+    opacity: 1;
 }
 
 .consent-content {
@@ -280,6 +287,23 @@ body {
     font-weight: 600;
     margin-top: 1rem;
     border-radius: 5px;
+}
+
+.secondary-button {
+    background-color: white;
+    color: #0C1E37;
+    padding: 0.75rem 1.5rem;
+    border: 2px solid #0C1E37;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 0.5rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.secondary-button:hover {
+    background-color: #0C1E37;
+    color: white;
 }
 
 #continue-without-accepting, #view-preferences {
