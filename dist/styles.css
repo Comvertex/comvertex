@@ -244,7 +244,7 @@ body {
     position: fixed;
     bottom: 21vh;
     left: 50%;
-    transform: translate(-50%, 0);
+    transform: translate(-50%, 20px);
     width: max-content;
     max-width: 90vw;
     background-color: #fff;
@@ -263,7 +263,7 @@ body {
 
 .consent-modal.show {
     opacity: 1;
-    transform: translate(-50%, 10px);
+    transform: translate(-50%, 0);
 }
 
 .consent-content {
