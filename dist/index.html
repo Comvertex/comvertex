@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comvertex - Homepage</title>
-    <link rel="icon" type="image/webp" href="assets/blue-favicon-white-bg.webp">
+    <link rel="icon" type="image/webp" href="assets/white-logo.webp">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -57,63 +57,34 @@
             </ul>
         </nav>
     </div>
-
     <div id="consent-banner" class="consent-banner">
-    <div id="consent-modal" class="consent-modal">
-        <div class="consent-content">
-            <h2>You control your data</h2>
-            <div class="consent-options">
-                <div>
-                    <label>Strictly Necessary</label>
-                    <input type="checkbox" checked disabled>
-                </div>
-                <div>
-                    <label>Functional</label>
-                    <input type="checkbox" id="functional-consent">
-                </div>
-                <div>
-                    <label>Statistical</label>
-                    <input type="checkbox" id="statistical-consent">
-            <h2>Manage Consent</h2>
-            
-            <div class="consent-description">
-                <p>We use cookies to provide the best experience on our website. By continuing to use this site, you consent to our use of cookies.</p>
-            </div>
-            <div id="consent-preferences" class="consent-preferences">
-                <div class="preference-group">
-                    <div class="preference-header">
-                        <h3>Functional</h3>
-                        <span class="always-active">Always active</span>
+            <div class="consent-content">
+                <h2>You control your data</h2>
+                <div class="consent-options">
+                    <div>
+                        <label>Strictly Necessary</label>
+                        <input type="checkbox" checked disabled>
                     </div>
-                    <p>Technical storage strictly necessary for providing services explicitly requested by the user.</p>
-                </div>
-                <div>
-                    <label>Marketing</label>
-                    <input type="checkbox" id="marketing-consent">
-                
-                <div class="preference-group">
-                    <div class="preference-header">
-                        <h3>Marketing</h3>
-                        <label class="toggle">
-                            <input type="checkbox" id="marketing-toggle">
-                            <span class="slider"></span>
-                        </label>
+                    <div>
+                        <label>Functional</label>
+                        <input type="checkbox" id="functional-consent">
                     </div>
-                    <p>Used for creating user profiles for advertising or tracking users across websites for marketing purposes.</p>
+                    <div>
+                        <label>Statistical</label>
+                        <input type="checkbox" id="statistical-consent">
+                    </div>
+                    <div>
+                        <label>Marketing</label>
+                        <input type="checkbox" id="marketing-consent">
+                    </div>
                 </div>
-            </div>
-            <div class="consent-buttons">
-                <button id="allow-all">Allow All</button>
-                <button id="only-selected">Only Selected</button>
-                <button id="deny-all">Deny</button>
-            <div class="consent-actions">
-                <button id="accept-all" class="primary-button">Accept All</button>
-                <button id="manage-preferences" class="secondary-button">Manage Preferences</button>
-                <button id="save-preferences" class="secondary-button" style="display: none;">Save Preferences</button>
-                <button id="reject-all" class="secondary-button">Continue without accepting</button>
+                <div class="consent-buttons">
+                    <button id="allow-all">Allow All</button>
+                    <button id="only-selected">Only Selected</button>
+                    <button id="deny-all">Deny</button>
+                </div>
             </div>
         </div>
-    </div>
-
-    <script src="index.js"></script>
-</body>
+    
+        <script src="index.js"></script>
+    </body>
