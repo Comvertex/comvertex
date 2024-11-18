@@ -120,15 +120,14 @@ body {
 }
 
 .blue-banner {
-    position: fixed;
-    bottom: -20vh;
+    position: absolute;
+    bottom: 0;
     left: 0;
     width: 100%;
     height: 20vh;
     background-color: #0c1e377a;
     backdrop-filter: blur(5px);
     opacity: 0;
-    transform: translateY(0);
     transition: bottom 2.9s var(--soft-ease), opacity 2.9s var(--soft-ease);
     z-index: 10;
     border-top: 1px solid rgba(255, 255, 255, 0.7);
@@ -247,6 +246,7 @@ body {
 
 .consent-modal {
     position: absolute;
+    bottom: 100%;
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
@@ -257,12 +257,11 @@ body {
     z-index: 1000;
     opacity: 0;
     transition: transform 0.8s ease-in, opacity 0.8s ease-in;
-    bottom: 100%;
 }
 
 .consent-modal.show {
     opacity: 1;
-    transform: translate(-50%, 20px);
+    transform: translate(-50%, 0);
 }
 
 .consent-content {
