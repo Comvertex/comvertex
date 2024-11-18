@@ -244,7 +244,7 @@ body {
     position: fixed;
     bottom: 33vh;
     left: 50%;
-    transform: translate(-50%, 0) scale(0);
+    transform: translate(-50%, 0);
     width: auto;
     max-width: 90vw;
     background-color: #fff;
@@ -253,7 +253,6 @@ body {
     padding: 20px;
     z-index: 1000;
     font-family: 'Montserrat', sans-serif;
-    transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out;
     opacity: 0;
     display: flex;
     align-items: center;
@@ -262,7 +261,6 @@ body {
 }
 
 .consent-banner.show {
-    transform: translate(-50%, 0) scale(1);
     opacity: 1;
 }
 
@@ -333,50 +331,6 @@ body {
     color: #0C1E37;
     text-decoration: underline;
     cursor: pointer;
-}
-
-.consent-modal {
-    position: fixed;
-    top: 50%;
-    right: -400px;
-    transform: translateY(-50%);
-    width: auto;
-    max-width: 90vw;
-    background-color: #fff;
-    backdrop-filter: blur(10px);
-    color: #0C1E37;
-    font-family: 'Montserrat', sans-serif;
-    transition: all 2s ease;
-    z-index: 9999;
-    border-left: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px 0 0 8px;
-    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
-}
-
-.consent-modal.show {
-    right: 0;
-}
-
-.consent-content {
-    padding: 2rem;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.consent-modal h2 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-    font-weight: 500;
-}
-
-.consent-description {
-    margin-bottom: 1.5rem;
-    font-size: 0.9rem;
-    line-height: 1.5;
-}
-
-.consent-preferences {
-    display: none;
 }
 
 .preference-group {
