@@ -233,20 +233,27 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 window.addEventListener('load', function() {
-    // Create a function to safely get element
-    const getElement = (id) => document.getElementById(id);
-    
-    // Create a function to safely add event listener
-    const addSafeListener = (id, event, handler) => {
-        const element = getElement(id);
-        if (element) {
-            element.addEventListener(event, handler);
+    // Create a safe element getter function
+    const getElement = (id) => {
+        const element = document.getElementById(id);
+        if (!element) {
+            console.log(`Element with id '${id}' not found`);
+            return null;
         }
+        return element;
     };
 
     setTimeout(() => {
         const modal = getElement('consent-modal');
-        if (!modal) return; // Exit if modal doesn't exist
+        if (!modal) return;  // Exit if modal doesn't exist
+
+        // Use the safe getter for all other elements
+        const addSafeListener = (id, event, handler) => {
+            const element = getElement(id);
+            if (element) {
+                element.addEventListener(event, handler);
+            }
+        };
 
         // Helper function to set cookies
         function setConsent(type, value) {
@@ -274,9 +281,7 @@ window.addEventListener('load', function() {
         addSafeListener('accept-all', 'click', () => {
             setConsent('functional', true);
             setConsent('marketing', true);
-            if (modal && modal.classList) {
-                modal.classList.remove('show');
-            }
+            modal.classList?.remove('show');
         });
 
         addSafeListener('manage-preferences', 'click', () => {
