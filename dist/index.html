@@ -58,14 +58,27 @@
         </nav>
     </div>
 
+    <div id="consent-banner" class="consent-banner">
     <div id="consent-modal" class="consent-modal">
         <div class="consent-content">
+            <h2>You control your data</h2>
+            <div class="consent-options">
+                <div>
+                    <label>Strictly Necessary</label>
+                    <input type="checkbox" checked disabled>
+                </div>
+                <div>
+                    <label>Functional</label>
+                    <input type="checkbox" id="functional-consent">
+                </div>
+                <div>
+                    <label>Statistical</label>
+                    <input type="checkbox" id="statistical-consent">
             <h2>Manage Consent</h2>
-
+            
             <div class="consent-description">
                 <p>We use cookies to provide the best experience on our website. By continuing to use this site, you consent to our use of cookies.</p>
             </div>
-
             <div id="consent-preferences" class="consent-preferences">
                 <div class="preference-group">
                     <div class="preference-header">
@@ -74,7 +87,10 @@
                     </div>
                     <p>Technical storage strictly necessary for providing services explicitly requested by the user.</p>
                 </div>
-
+                <div>
+                    <label>Marketing</label>
+                    <input type="checkbox" id="marketing-consent">
+                
                 <div class="preference-group">
                     <div class="preference-header">
                         <h3>Marketing</h3>
@@ -86,7 +102,10 @@
                     <p>Used for creating user profiles for advertising or tracking users across websites for marketing purposes.</p>
                 </div>
             </div>
-
+            <div class="consent-buttons">
+                <button id="allow-all">Allow All</button>
+                <button id="only-selected">Only Selected</button>
+                <button id="deny-all">Deny</button>
             <div class="consent-actions">
                 <button id="accept-all" class="primary-button">Accept All</button>
                 <button id="manage-preferences" class="secondary-button">Manage Preferences</button>
