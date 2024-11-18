@@ -127,12 +127,12 @@ document.addEventListener('DOMContentLoaded', () => {
             init() {
                 try {
                     // Get DOM elements
-                    this.modal = document.getElementById('consent-modal');
-                    this.preferencesDiv = document.getElementById('consent-preferences');
-                    this.marketingToggle = document.getElementById('marketing-toggle');
+                    this.modal = getElement('consent-modal', true);
+                    this.preferencesDiv = getElement('consent-preferences', true);
+                    this.marketingToggle = getElement('marketing-toggle', true);
                     
-                    if (!this.modal) {
-                        console.error('Consent modal not found');
+                    if (!this.modal || !this.preferencesDiv || !this.marketingToggle) {
+                        console.warn('Some consent modal elements not found');
                         return;
                     }
 
@@ -234,10 +234,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 window.addEventListener('load', function() {
     // Create a safe element getter function
-    const getElement = (id) => {
-        const element = document.getElementById(id);
+    const getElement = (selector, isId = false) => {
+        const element = isId ? 
+            document.getElementById(selector) : 
+            document.querySelector(selector);
         if (!element) {
-            console.log(`Element with id '${id}' not found`);
+            console.warn(`Element ${selector} not found`);
             return null;
         }
         return element;
