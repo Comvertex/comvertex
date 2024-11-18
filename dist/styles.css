@@ -293,12 +293,12 @@ body {
 }
 
 #allow-all {
-    background-color: #fff;
-    color: #0C1E37;
+    background-color: #0C1E37;
+    color: #fff;
 }
 
 #allow-all:hover {
-    background-color: #e0e0e0;
+    background-color: #0A172B;
     transform: scale(1.05);
 }
 
@@ -457,7 +457,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: #fff;
     transition: .4s;
     border-radius: 24px;
 }
@@ -469,15 +469,16 @@ body {
     width: 16px;
     left: 4px;
     bottom: 4px;
-    background-color: white;
+    background-color: #0C1E37;
     transition: .4s;
     border-radius: 50%;
 }
 
 input:checked + .slider {
-    background-color: #4CAF50;
+    background-color: #fff;
 }
 
 input:checked + .slider:before {
+    background-color: #0C1E37;
     transform: translateX(26px);
 }
