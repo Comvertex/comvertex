@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, 2000);
             });
         }
-
+        
         init() {
             try {
                 this.modal = document.getElementById('consent-modal');
