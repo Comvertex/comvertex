@@ -241,8 +241,8 @@ body {
 }
 
 .consent-modal {
-    position: fixed;
-    bottom: calc(100vh - 21vh);
+    position: absolute;
+    bottom: 0;
     left: 50%;
     transform: translateX(-50%);
     width: max-content;
@@ -258,11 +258,12 @@ body {
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    transition: opacity 2.4s ease-in;
+    transition: opacity 2.4s ease-in, transform 2.4s ease-in;
 }
 
 .consent-modal.show {
     opacity: 1;
+    transform: translate(-50%, -20px);
 }
 
 .consent-content {
