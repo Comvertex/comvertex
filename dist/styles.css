@@ -240,7 +240,7 @@ body {
     }
 }
 
-.consent-banner {
+.consent-modal {
     position: fixed;
     bottom: 33vh;
     left: 50%;
@@ -260,7 +260,7 @@ body {
     flex-wrap: wrap;
 }
 
-.consent-banner.show {
+.consent-modal.show {
     opacity: 1;
 }
 
