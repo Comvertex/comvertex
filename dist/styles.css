@@ -155,10 +155,7 @@ body {
 
 .menu li {
     position: relative;
-    color: transparent;
-    -webkit-background-clip: text;
-    background-clip: text;
-    mix-blend-mode: overlay;
+    color: #fff;
     font-weight: 600;
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
