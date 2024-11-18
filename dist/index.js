@@ -274,7 +274,9 @@ window.addEventListener('load', function() {
         addSafeListener('accept-all', 'click', () => {
             setConsent('functional', true);
             setConsent('marketing', true);
-            modal.classList.remove('show');
+            if (modal && modal.classList) {
+                modal.classList.remove('show');
+            }
         });
 
         addSafeListener('manage-preferences', 'click', () => {
@@ -293,13 +295,17 @@ window.addEventListener('load', function() {
             const marketingToggle = getElement('marketing-toggle');
             setConsent('functional', true);
             setConsent('marketing', marketingToggle?.checked || false);
-            modal.classList.remove('show');
+            if (modal && modal.classList) {
+                modal.classList.remove('show');
+            }
         });
 
         addSafeListener('reject-all', 'click', () => {
             setConsent('functional', true);
             setConsent('marketing', false);
-            modal.classList.remove('show');
+            if (modal && modal.classList) {
+                modal.classList.remove('show');
+            }
         });
 
         // Check consent status
