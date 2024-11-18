@@ -242,7 +242,7 @@ body {
 
 .consent-modal {
     position: absolute;
-    bottom: 0;
+    top: -100%;
     left: 50%;
     transform: translateX(-50%);
     width: max-content;
@@ -263,7 +263,7 @@ body {
 
 .consent-modal.show {
     opacity: 1;
-    transform: translate(-50%, -20px);
+    transform: translate(-50%, 0);
 }
 
 .consent-content {
