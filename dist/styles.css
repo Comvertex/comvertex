@@ -158,7 +158,6 @@ body {
     color: #fff;
     font-weight: 600;
     font-family: 'Montserrat', sans-serif;
-    font-weight: 400;
     text-transform: uppercase;
     font-size: clamp(0.7rem, 1.05vw, 0.98rem);
     letter-spacing: 0.15em;
@@ -246,18 +245,19 @@ body {
     bottom: 0;
     left: 0;
     width: 100%;
-    background-color: #0C1E37;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
     color: #fff;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.2);
     padding: 20px;
     z-index: 1000;
     font-family: 'Montserrat', sans-serif;
     transition: transform 0.6s ease-in-out;
     transform: translateY(100%);
-    height: 60px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .consent-banner.show {
@@ -267,46 +267,55 @@ body {
 .consent-content {
     max-width: 800px;
     margin: 0 auto;
-    text-align: center;
+    text-align: left;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    opacity: 0.9;
+}
+
+.consent-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.consent-buttons button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    font-size: 0.9rem;
+}
+
+.consent-buttons button:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+    transform: scale(1.05);
+}
+
+.primary-button {
+    background-color: #4CAF50;
+    color: #fff;
+}
+
+.primary-button:hover {
+    background-color: #45a049;
+}
+
+.secondary-button {
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.secondary-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .consent-options {
     display: flex;
     justify-content: space-around;
     margin: 20px 0;
-}
-
-.consent-buttons {
-    margin: 20px 0;
-}
-
-.consent-buttons button {
-    margin: 0 10px;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s, transform 0.3s;
-}
-
-#allow-all {
-    background-color: #fff;
-    color: #0C1E37;
-}
-
-#allow-all:hover {
-    background-color: #e0e0e0;
-    transform: scale(1.05);
-}
-
-#only-selected, #deny-all {
-    background-color: #f0f0f0;
-    color: #0C1E37;
-}
-
-#only-selected:hover, #deny-all:hover {
-    background-color: #e0e0e0;
-    transform: scale(1.05);
 }
 
 .consent-options input[type="checkbox"] {
@@ -414,22 +423,6 @@ body {
 
 .consent-actions button:hover {
     transform: translateY(-2px);
-}
-
-.primary-button {
-    background-color: #fff;
-    color: #001531;
-}
-
-.secondary-button {
-    background-color: transparent;
-    color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.8) !important;
-    transition: all 0.3s ease;
-}
-
-.secondary-button:hover {
-    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .toggle {
