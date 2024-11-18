@@ -329,13 +329,15 @@ body {
     color: #fff;
     font-family: 'Montserrat', sans-serif;
     transform: translateY(100%);
-    transition: transform 0.4s var(--soft-ease);
+    opacity: 0;
+    transition: transform 0.4s var(--soft-ease), opacity 0.4s var(--soft-ease);
     z-index: 1000;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .consent-modal.show {
     transform: translateY(0);
+    opacity: 1;
 }
 
 .consent-modal .consent-content {

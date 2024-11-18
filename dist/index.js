@@ -178,9 +178,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         checkConsentStatus() {
-            const hasConsent = document.cookie.split(';').some(c => c.trim().startsWith('site_functional='));
+            const hasConsent = document.cookie.split(';').some(c => 
+                c.trim().startsWith('site_functional=') || 
+                c.trim().startsWith('site_marketing=')
+            );
+            
             if (!hasConsent) {
-                this.modal.classList.add('show');
+                setTimeout(() => {
+                    this.modal.classList.add('show');
+                }, 100);
             }
         }
 
@@ -189,6 +195,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Initialize cookie consent
-    const cookieConsent = new CookieConsent();
+    // Initialize cookie consent after animations
+    setTimeout(() => {
+        const cookieConsent = new CookieConsent();
+    }, 3500); // Adjust this timing to match when your animations complete
 }); 
