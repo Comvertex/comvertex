@@ -1,8 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize dataLayer if not already initialized
     window.dataLayer = window.dataLayer || [];
 
-    // Function to update consent status
     function updateConsentStatus(consentType, status) {
         window.dataLayer.push({
             event: 'consent_update',
@@ -11,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Animation setup
     const logoContainer = document.querySelector('.logo-container');
     const centerContainer = document.querySelector('.center-container');
     const blueBanner = document.querySelector('.blue-banner');
@@ -35,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const line2Letters = splitText(line2);
 
     setTimeout(() => {
-        logoContainer.classList.add('active');
+        logoContainer?.classList.add('active');
 
         setTimeout(() => {
             line1Letters.forEach((letter, index) => {
@@ -52,8 +49,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 setTimeout(() => {
-                    blueBanner.classList.add('active');
-                    centerContainer.classList.add('shifted');
+                    blueBanner?.classList.add('active');
+                    centerContainer?.classList.add('shifted');
 
                     menuItems.forEach((item, index) => {
                         setTimeout(() => {
@@ -62,17 +59,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         }, index * 100);
                     });
 
-                    // Show the consent modal at the same time
                     const consentModal = document.getElementById('consent-modal');
-                    if (consentModal) {
-                        consentModal.classList.add('show');
-                    }
+                    consentModal?.classList.add('show');
                 }, 800);
             }, 1000);
         }, 300);
     }, 500);
 
-    // Cookie consent management
     class CookieConsent {
         constructor() {
             window.addEventListener('load', () => {
