@@ -235,6 +235,10 @@ document.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('load', function() {
     setTimeout(() => {
         const modal = document.getElementById('consent-modal');
+        const acceptAllBtn = document.getElementById('accept-all');
+        const managePrefsBtn = document.getElementById('manage-preferences');
+        const rejectAllBtn = document.getElementById('reject-all');
+
         if (!modal) {
             console.error('Modal not found');
             return;
@@ -250,21 +254,34 @@ window.addEventListener('load', function() {
             modal.classList.add('show');
         }
 
-        // Basic button handlers
-        document.getElementById('accept-all')?.addEventListener('click', function() {
-            const expires = new Date();
-            expires.setDate(expires.getDate() + 365);
-            document.cookie = `site_functional=allow; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
-            document.cookie = `site_marketing=allow; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
-            modal.classList.remove('show');
-        });
+        // Safely add event listeners only if elements exist
+        if (acceptAllBtn) {
+            acceptAllBtn.addEventListener('click', function() {
+                const expires = new Date();
+                expires.setDate(expires.getDate() + 365);
+                document.cookie = `site_functional=allow; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
+                document.cookie = `site_marketing=allow; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
+                modal.classList.remove('show');
+            });
+        }
 
-        document.getElementById('reject-all')?.addEventListener('click', function() {
-            const expires = new Date();
-            expires.setDate(expires.getDate() + 365);
-            document.cookie = `site_functional=allow; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
-            document.cookie = `site_marketing=deny; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
-            modal.classList.remove('show');
-        });
+        if (managePrefsBtn) {
+            managePrefsBtn.addEventListener('click', function() {
+                document.getElementById('consent-preferences').style.display = 'block';
+                managePrefsBtn.style.display = 'none';
+                document.getElementById('save-preferences').style.display = 'inline-block';
+                rejectAllBtn.style.display = 'none';
+            });
+        }
+
+        if (rejectAllBtn) {
+            rejectAllBtn.addEventListener('click', function() {
+                const expires = new Date();
+                expires.setDate(expires.getDate() + 365);
+                document.cookie = `site_functional=allow; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
+                document.cookie = `site_marketing=deny; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
+                modal.classList.remove('show');
+            });
+        }
     }, 2000);
 }); 
