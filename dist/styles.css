@@ -242,7 +242,7 @@ body {
 
 .consent-modal {
     position: fixed;
-    bottom: 33vh;
+    bottom: 21vh;
     left: 50%;
     transform: translate(-50%, 0);
     width: auto;
@@ -267,7 +267,12 @@ body {
 .consent-content {
     max-width: 100%;
     margin: 0 auto;
-    text-align: center;
+    text-align: left;
+}
+
+.consent-description {
+    font-size: 0.8rem;
+    padding: 10px 0;
 }
 
 .consent-options {
