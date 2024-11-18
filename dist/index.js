@@ -220,7 +220,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 );
                 
                 if (!hasConsent && this.modal) {
+                    // Force a reflow before adding the show class
+                    void this.modal.offsetWidth;
                     this.modal.classList.add('show');
+                    console.log('Modal should be visible now'); // Debug log
                 }
             } catch (error) {
                 console.error('Error checking consent status:', error);

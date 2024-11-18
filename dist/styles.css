@@ -330,22 +330,24 @@ body {
     font-family: 'Montserrat', sans-serif;
     transform: translateY(100%);
     opacity: 0;
-    transition: transform 0.4s var(--soft-ease), opacity 0.4s var(--soft-ease);
-    z-index: 1000;
+    transition: all 0.4s var(--soft-ease);
+    z-index: 9999;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    pointer-events: auto;
+    height: auto;
+    max-height: 80vh;
+    overflow-y: auto;
 }
 
 .consent-modal.show {
     transform: translateY(0);
     opacity: 1;
-    pointer-events: auto;
 }
 
-.consent-modal .consent-content {
+.consent-content {
+    padding: 2rem;
     max-width: 800px;
     margin: 0 auto;
-    padding: 2rem;
+    position: relative;
 }
 
 .consent-modal h2 {
