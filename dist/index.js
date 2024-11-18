@@ -114,12 +114,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     class CookieConsent {
         constructor() {
+            console.log('CookieConsent initializing...'); // Debug log
             this.modal = document.getElementById('consent-modal');
+            if (!this.modal) {
+                console.error('Consent modal element not found!'); // Debug log
+                return;
+            }
             this.preferencesDiv = document.getElementById('consent-preferences');
             this.marketingToggle = document.getElementById('marketing-toggle');
             
             this.initializeButtons();
             this.checkConsentStatus();
+            console.log('CookieConsent initialized'); // Debug log
         }
 
         initializeButtons() {
@@ -178,12 +184,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         checkConsentStatus() {
+            console.log('Checking consent status...'); // Debug log
             const hasConsent = document.cookie.split(';').some(c => 
                 c.trim().startsWith('site_functional=') || 
                 c.trim().startsWith('site_marketing=')
             );
             
+            console.log('Has consent:', hasConsent); // Debug log
+            
             if (!hasConsent) {
+                console.log('Showing consent modal...'); // Debug log
                 setTimeout(() => {
                     this.modal.classList.add('show');
                 }, 100);
@@ -195,8 +205,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Initialize cookie consent after animations
+    // Initialize cookie consent with a longer delay
+    console.log('Setting up consent timeout...'); // Debug log
     setTimeout(() => {
-        const cookieConsent = new CookieConsent();
-    }, 3500); // Adjust this timing to match when your animations complete
+        console.log('Initializing consent...'); // Debug log
+        new CookieConsent();
+    }, 4000); // Increased delay to 4 seconds
 }); 

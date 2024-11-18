@@ -333,11 +333,13 @@ body {
     transition: transform 0.4s var(--soft-ease), opacity 0.4s var(--soft-ease);
     z-index: 1000;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
+    pointer-events: auto;
 }
 
 .consent-modal.show {
     transform: translateY(0);
     opacity: 1;
+    pointer-events: auto;
 }
 
 .consent-modal .consent-content {
