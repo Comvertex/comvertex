@@ -331,23 +331,20 @@ body {
     font-family: 'Montserrat', sans-serif;
     transform: translateY(100%);
     opacity: 0;
-    transition: all 0.4s var(--soft-ease);
+    transition: all 0.4s ease;
     z-index: 9999;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    visibility: hidden;
 }
 
 .consent-modal.show {
     transform: translateY(0);
     opacity: 1;
-    visibility: visible;
 }
 
 .consent-content {
     padding: 2rem;
     max-width: 800px;
     margin: 0 auto;
-    position: relative;
 }
 
 .consent-modal h2 {

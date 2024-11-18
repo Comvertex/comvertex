@@ -230,4 +230,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize cookie consent
     initCookieConsent();
+});
+
+window.addEventListener('load', function() {
+    setTimeout(() => {
+        const modal = document.getElementById('consent-modal');
+        if (!modal) {
+            console.error('Modal not found');
+            return;
+        }
+
+        // Show modal if no consent
+        const hasConsent = document.cookie.split(';').some(c => 
+            c.trim().startsWith('site_functional=') || 
+            c.trim().startsWith('site_marketing=')
+        );
+
+        if (!hasConsent) {
+            modal.classList.add('show');
+        }
+
+        // Basic button handlers
+        document.getElementById('accept-all')?.addEventListener('click', function() {
+            const expires = new Date();
+            expires.setDate(expires.getDate() + 365);
+            document.cookie = `site_functional=allow; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
+            document.cookie = `site_marketing=allow; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
+            modal.classList.remove('show');
+        });
+
+        document.getElementById('reject-all')?.addEventListener('click', function() {
+            const expires = new Date();
+            expires.setDate(expires.getDate() + 365);
+            document.cookie = `site_functional=allow; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
+            document.cookie = `site_marketing=deny; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
+            modal.classList.remove('show');
+        });
+    }, 2000);
 }); 
