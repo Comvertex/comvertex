@@ -233,40 +233,73 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 window.addEventListener('load', function() {
-    setTimeout(() => {
-        const modal = document.getElementById('consent-modal');
-        
-        // Handle all clicks through event delegation
-        document.addEventListener('click', function(e) {
-            // Only handle clicks if the modal exists
-            if (!modal) return;
+    // Create a function to safely get element
+    const getElement = (id) => document.getElementById(id);
+    
+    // Create a function to safely add event listener
+    const addSafeListener = (id, event, handler) => {
+        const element = getElement(id);
+        if (element) {
+            element.addEventListener(event, handler);
+        }
+    };
 
-            if (e.target.id === 'accept-all') {
-                const expires = new Date();
-                expires.setDate(expires.getDate() + 365);
-                document.cookie = `site_functional=allow; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
-                document.cookie = `site_marketing=allow; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
-                modal.classList.remove('show');
-            }
+    setTimeout(() => {
+        const modal = getElement('consent-modal');
+        if (!modal) return; // Exit if modal doesn't exist
+
+        // Helper function to set cookies
+        function setConsent(type, value) {
+            const expires = new Date();
+            expires.setDate(expires.getDate() + 365);
+            document.cookie = `site_${type}=${value ? 'allow' : 'deny'}; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
             
-            if (e.target.id === 'manage-preferences') {
-                const prefsDiv = document.getElementById('consent-preferences');
-                const saveBtn = document.getElementById('save-preferences');
-                const rejectBtn = document.getElementById('reject-all');
-                
-                if (prefsDiv) prefsDiv.style.display = 'block';
-                if (e.target) e.target.style.display = 'none';
-                if (saveBtn) saveBtn.style.display = 'inline-block';
-                if (rejectBtn) rejectBtn.style.display = 'none';
+            // Update GTM consent
+            if (type === 'marketing') {
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push({
+                    'event': 'consent_update',
+                    'consent': {
+                        'functionality_storage': 'granted',
+                        'analytics_storage': value ? 'granted' : 'denied',
+                        'ad_storage': value ? 'granted' : 'denied',
+                        'ad_user_data': value ? 'granted' : 'denied',
+                        'ad_personalization': value ? 'granted' : 'denied'
+                    }
+                });
             }
+        }
+
+        // Add event listeners safely
+        addSafeListener('accept-all', 'click', () => {
+            setConsent('functional', true);
+            setConsent('marketing', true);
+            modal.classList.remove('show');
+        });
+
+        addSafeListener('manage-preferences', 'click', () => {
+            const prefsDiv = getElement('consent-preferences');
+            const manageBtn = getElement('manage-preferences');
+            const saveBtn = getElement('save-preferences');
+            const rejectBtn = getElement('reject-all');
             
-            if (e.target.id === 'reject-all') {
-                const expires = new Date();
-                expires.setDate(expires.getDate() + 365);
-                document.cookie = `site_functional=allow; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
-                document.cookie = `site_marketing=deny; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
-                modal.classList.remove('show');
-            }
+            if (prefsDiv) prefsDiv.style.display = 'block';
+            if (manageBtn) manageBtn.style.display = 'none';
+            if (saveBtn) saveBtn.style.display = 'inline-block';
+            if (rejectBtn) rejectBtn.style.display = 'none';
+        });
+
+        addSafeListener('save-preferences', 'click', () => {
+            const marketingToggle = getElement('marketing-toggle');
+            setConsent('functional', true);
+            setConsent('marketing', marketingToggle?.checked || false);
+            modal.classList.remove('show');
+        });
+
+        addSafeListener('reject-all', 'click', () => {
+            setConsent('functional', true);
+            setConsent('marketing', false);
+            modal.classList.remove('show');
         });
 
         // Check consent status
