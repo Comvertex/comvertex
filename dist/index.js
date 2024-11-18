@@ -49,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 setTimeout(() => {
+                    console.log('Adding active class to blueBanner');
                     blueBanner?.classList.add('active');
                     centerContainer?.classList.add('shifted');
 
@@ -158,6 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 c.trim().startsWith('site_marketing=')
             );
 
+            
             if (!hasConsent && this.modal) {
                 requestAnimationFrame(() => {
                     this.modal.classList.add('show');
