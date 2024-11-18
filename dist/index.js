@@ -112,90 +112,86 @@ document.addEventListener('DOMContentLoaded', () => {
         // Disable all tracking
     });
 
-    // First, let's separate the cookie consent code completely
-    class CookieConsent {
-        constructor() {
-            // Wait for DOM to be fully loaded
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', () => this.init());
-            } else {
-                this.init();
+    // Separate the cookie consent code completely from other scripts
+    const initCookieConsent = () => {
+        class CookieConsent {
+            constructor() {
+                // Wait for DOM to be completely loaded
+                window.addEventListener('load', () => {
+                    setTimeout(() => {
+                        this.init();
+                    }, 2000);
+                });
             }
-        }
 
-        init() {
-            try {
-                this.modal = document.getElementById('consent-modal');
-                if (!this.modal) {
-                    console.error('Consent modal not found');
-                    return;
+            init() {
+                try {
+                    // Get DOM elements
+                    this.modal = document.getElementById('consent-modal');
+                    this.preferencesDiv = document.getElementById('consent-preferences');
+                    this.marketingToggle = document.getElementById('marketing-toggle');
+                    
+                    if (!this.modal) {
+                        console.error('Consent modal not found');
+                        return;
+                    }
+
+                    // Bind event listeners
+                    document.getElementById('accept-all')?.addEventListener('click', () => this.handleAcceptAll());
+                    document.getElementById('manage-preferences')?.addEventListener('click', () => this.showPreferences());
+                    document.getElementById('save-preferences')?.addEventListener('click', () => this.savePreferences());
+                    document.getElementById('reject-all')?.addEventListener('click', () => this.handleRejectAll());
+
+                    // Check consent status
+                    this.checkConsentStatus();
+                } catch (error) {
+                    console.error('Error initializing cookie consent:', error);
                 }
-
-                this.preferencesDiv = document.getElementById('consent-preferences');
-                this.marketingToggle = document.getElementById('marketing-toggle');
-                
-                // Initialize buttons
-                const acceptAll = document.getElementById('accept-all');
-                const managePrefs = document.getElementById('manage-preferences');
-                const savePrefs = document.getElementById('save-preferences');
-                const rejectAll = document.getElementById('reject-all');
-
-                if (acceptAll) acceptAll.addEventListener('click', () => this.handleAcceptAll());
-                if (managePrefs) managePrefs.addEventListener('click', () => this.showPreferences());
-                if (savePrefs) savePrefs.addEventListener('click', () => this.savePreferences());
-                if (rejectAll) rejectAll.addEventListener('click', () => this.handleRejectAll());
-
-                // Check consent status after a delay
-                setTimeout(() => this.checkConsentStatus(), 2000);
-            } catch (error) {
-                console.error('Error initializing cookie consent:', error);
             }
-        }
 
-        showPreferences() {
-            if (this.preferencesDiv) {
-                this.preferencesDiv.style.display = 'block';
-                document.getElementById('manage-preferences').style.display = 'none';
-                document.getElementById('save-preferences').style.display = 'inline-block';
-                document.getElementById('reject-all').style.display = 'none';
+            showPreferences() {
+                if (this.preferencesDiv && this.modal) {
+                    this.preferencesDiv.style.display = 'block';
+                    const manageBtn = document.getElementById('manage-preferences');
+                    const saveBtn = document.getElementById('save-preferences');
+                    const rejectBtn = document.getElementById('reject-all');
+                    
+                    if (manageBtn) manageBtn.style.display = 'none';
+                    if (saveBtn) saveBtn.style.display = 'inline-block';
+                    if (rejectBtn) rejectBtn.style.display = 'none';
+                }
             }
-        }
 
-        handleAcceptAll() {
-            this.setConsent('functional', true);
-            this.setConsent('marketing', true);
-            this.updateGTMConsent(true);
-            this.hideModal();
-        }
-
-        handleRejectAll() {
-            this.setConsent('functional', true);
-            this.setConsent('marketing', false);
-            this.updateGTMConsent(false);
-            this.hideModal();
-        }
-
-        savePreferences() {
-            if (this.marketingToggle) {
+            handleAcceptAll() {
                 this.setConsent('functional', true);
-                this.setConsent('marketing', this.marketingToggle.checked);
-                this.updateGTMConsent(this.marketingToggle.checked);
+                this.setConsent('marketing', true);
+                this.updateGTMConsent(true);
                 this.hideModal();
             }
-        }
 
-        setConsent(type, value) {
-            try {
+            handleRejectAll() {
+                this.setConsent('functional', true);
+                this.setConsent('marketing', false);
+                this.updateGTMConsent(false);
+                this.hideModal();
+            }
+
+            savePreferences() {
+                if (this.marketingToggle) {
+                    this.setConsent('functional', true);
+                    this.setConsent('marketing', this.marketingToggle.checked);
+                    this.updateGTMConsent(this.marketingToggle.checked);
+                    this.hideModal();
+                }
+            }
+
+            setConsent(type, value) {
                 const expires = new Date();
                 expires.setDate(expires.getDate() + 365);
                 document.cookie = `site_${type}=${value ? 'allow' : 'deny'}; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
-            } catch (error) {
-                console.error('Error setting consent:', error);
             }
-        }
 
-        updateGTMConsent(allowed) {
-            try {
+            updateGTMConsent(allowed) {
                 window.dataLayer = window.dataLayer || [];
                 window.dataLayer.push({
                     'event': 'consent_update',
@@ -207,40 +203,31 @@ document.addEventListener('DOMContentLoaded', () => {
                         'ad_personalization': allowed ? 'granted' : 'denied'
                     }
                 });
-            } catch (error) {
-                console.error('Error updating GTM consent:', error);
             }
-        }
 
-        checkConsentStatus() {
-            try {
+            checkConsentStatus() {
                 const hasConsent = document.cookie.split(';').some(c => 
                     c.trim().startsWith('site_functional=') || 
                     c.trim().startsWith('site_marketing=')
                 );
                 
                 if (!hasConsent && this.modal) {
-                    // Force a reflow before adding the show class
-                    void this.modal.offsetWidth;
-                    this.modal.classList.add('show');
-                    console.log('Modal should be visible now'); // Debug log
+                    requestAnimationFrame(() => {
+                        this.modal.classList.add('show');
+                    });
                 }
-            } catch (error) {
-                console.error('Error checking consent status:', error);
+            }
+
+            hideModal() {
+                if (this.modal) {
+                    this.modal.classList.remove('show');
+                }
             }
         }
 
-        hideModal() {
-            if (this.modal) {
-                this.modal.classList.remove('show');
-            }
-        }
-    }
+        return new CookieConsent();
+    };
 
-    // Initialize cookie consent separately from other scripts
-    window.addEventListener('load', () => {
-        setTimeout(() => {
-            new CookieConsent();
-        }, 2000);
-    });
+    // Initialize cookie consent
+    initCookieConsent();
 }); 

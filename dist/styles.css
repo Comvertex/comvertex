@@ -323,6 +323,7 @@ body {
     position: fixed;
     bottom: 0;
     left: 0;
+    right: 0;
     width: 100%;
     background-color: #001531f2;
     backdrop-filter: blur(10px);
@@ -333,14 +334,13 @@ body {
     transition: all 0.4s var(--soft-ease);
     z-index: 9999;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    height: auto;
-    max-height: 80vh;
-    overflow-y: auto;
+    visibility: hidden;
 }
 
 .consent-modal.show {
     transform: translateY(0);
     opacity: 1;
+    visibility: visible;
 }
 
 .consent-content {
