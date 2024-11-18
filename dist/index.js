@@ -5,6 +5,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const line1 = document.querySelector('.line1');
     const line2 = document.querySelector('.line2');
     const menuItems = document.querySelectorAll('.menu li');
+    const acceptAllButton = document.getElementById('accept-all');
+    const viewPreferencesButton = document.getElementById('view-preferences');
+    const savePreferencesButton = document.getElementById('save-preferences');
+    const preferencesSection = document.getElementById('preferences-section');
 
     const splitText = (element) => {
         const text = element.textContent;
@@ -53,49 +57,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 300);
     }, 500);
 
-    const cookieBanner = document.getElementById('cookie-consent');
-    const acceptCookiesBtn = document.getElementById('accept-cookies');
-    const rejectCookiesBtn = document.getElementById('reject-cookies');
-    const viewPreferencesBtn = document.getElementById('view-preferences');
-
-    const setCookie = (name, value, days) => {
-        const date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        const expires = "expires=" + date.toUTCString();
-        document.cookie = name + "=" + value + ";" + expires + ";path=/";
-    };
-
-    const getCookie = (name) => {
-        const nameEQ = name + "=";
-        const ca = document.cookie.split(';');
-        for (let i = 0; i < ca.length; i++) {
-            let c = ca[i];
-            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
-        }
-        return null;
-    };
-
-    const checkCookieConsent = () => {
-        const consent = getCookie('cookie_consent');
-        if (!consent) {
-            cookieBanner.style.display = 'flex';
-        }
-    };
-
-    acceptCookiesBtn.addEventListener('click', () => {
-        setCookie('cookie_consent', 'accepted', 365);
-        cookieBanner.style.display = 'none';
+    acceptAllButton.addEventListener('click', () => {
+        // Set all cookies to allow
+        document.cookie = "cmplz_functional=allow; path=/; expires=Fri, 31 Dec 9999 23:59:59 GMT";
+        document.cookie = "cmplz_marketing=allow; path=/; expires=Fri, 31 Dec 9999 23:59:59 GMT";
+        // Hide consent banner
+        document.getElementById('consent-banner').style.display = 'none';
     });
 
-    rejectCookiesBtn.addEventListener('click', () => {
-        setCookie('cookie_consent', 'rejected', 365);
-        cookieBanner.style.display = 'none';
+    viewPreferencesButton.addEventListener('click', () => {
+        preferencesSection.classList.toggle('visible');
     });
 
-    viewPreferencesBtn.addEventListener('click', () => {
-        // Implement preferences logic
-    });
+    savePreferencesButton.addEventListener('click', () => {
+        const functionalConsent = document.getElementById('functional-consent').checked ? 'allow' : 'deny';
+        const marketingConsent = document.getElementById('marketing-consent').checked ? 'allow' : 'deny';
 
-    checkCookieConsent();
+        document.cookie = `cmplz_functional=${functionalConsent}; path=/; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
+        document.cookie = `cmplz_marketing=${marketingConsent}; path=/; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
+
+        // Hide consent banner
+        document.getElementById('consent-banner').style.display = 'none';
+    });
 });

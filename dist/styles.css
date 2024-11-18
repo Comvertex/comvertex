@@ -248,43 +248,71 @@ body {
     cursor: pointer;
 }
 
-.cookie-banner {
+.consent-banner {
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
-    background-color: rgba(0, 21, 49, 0.9);
-    color: white;
+    background: white;
+    color: #0C1E37;
     padding: 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
     z-index: 100;
+    font-family: 'Montserrat', sans-serif;
 }
 
-.cookie-content {
-    max-width: 800px;
-    text-align: center;
+.consent-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
 }
 
-.cookie-content h2 {
-    margin-bottom: 0.5rem;
-}
-
-.cookie-content p {
-    margin-bottom: 1rem;
-}
-
-.cookie-content button {
-    margin: 0 0.5rem;
-    padding: 0.5rem 1rem;
-    background-color: #0C1E37;
+.primary-button {
+    background-color: #001531;
     color: white;
+    padding: 0.5rem 1rem;
     border: none;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    font-weight: 600;
 }
 
-.cookie-content button:hover {
-    background-color: #001531;
+#view-preferences {
+    background: none;
+    border: none;
+    color: #0C1E37;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.preferences-section {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.preferences-section.visible {
+    display: flex;
+}
+
+.preferences-section h4 {
+    margin-bottom: 0.5rem;
+    color: #0C1E37;
+}
+
+.preferences-section p {
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.preferences-section input[type="checkbox"] {
+    margin-right: 0.5rem;
 }

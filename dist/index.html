@@ -57,18 +57,29 @@
             </ul>
         </nav>
     </div>
-    
-    <!-- Cookie Consent Banner -->
-    <div id="cookie-consent" class="cookie-banner">
-        <div class="cookie-content">
+    <div id="consent-banner" class="consent-banner">
+        <div class="consent-content">
             <h2>Manage Consent</h2>
             <p>To provide the best experiences, we use technologies like cookies to store and/or access device information. Consenting to these technologies will allow us to process data such as browsing behavior or unique IDs on this site. Not consenting or withdrawing consent may adversely affect certain features and functions.</p>
-            <button id="accept-cookies">Accept</button>
-            <button id="reject-cookies">Continue without accepting</button>
-            <button id="view-preferences">View preferences</button>
+            <button id="accept-all" class="primary-button">Accept All</button>
+            <button id="continue-without-accepting">Continue without accepting</button>
+            <button id="view-preferences">View Preferences</button>
+        </div>
+        <div id="preferences-section" class="preferences-section hidden">
+            <h3>Preferences</h3>
+            <div>
+                <h4>Functional</h4>
+                <p>Technical storage or access is strictly necessary for the legitimate purpose of enabling the use of a specific service explicitly requested by the subscriber or user, or for the sole purpose of carrying out the transmission of a communication over an electronic communications network.</p>
+                <input type="checkbox" id="functional-consent" checked disabled>
+            </div>
+            <div>
+                <h4>Marketing</h4>
+                <p>Technical storage or access is necessary to create user profiles to send advertising, or to track the user on a website or across different websites for similar marketing purposes.</p>
+                <input type="checkbox" id="marketing-consent">
+            </div>
+            <button id="save-preferences">Save Preferences</button>
         </div>
     </div>
-
+    
     <script src="index.js"></script>
 </body>
-</html>
