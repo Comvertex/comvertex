@@ -245,7 +245,7 @@ body {
     bottom: 21vh;
     left: 50%;
     transform: translate(-50%, 0);
-    width: auto;
+    width: max-content;
     max-width: 90vw;
     background-color: #fff;
     color: #0C1E37;
@@ -258,16 +258,22 @@ body {
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
+    transition: transform 0.8s ease-in, opacity 0.8s ease-in;
 }
 
 .consent-modal.show {
     opacity: 1;
+    transform: translate(-50%, 10px);
 }
 
 .consent-content {
     max-width: 100%;
     margin: 0 auto;
     text-align: left;
+}
+
+.consent-modal h2 {
+    text-align: center;
 }
 
 .consent-description {
@@ -300,9 +306,15 @@ body {
     flex: 1 1 auto;
 }
 
-@media (max-width: 600px) {
-    .consent-buttons button {
-        flex: 1 0 100%;
+@media (max-width: 700px) {
+    .consent-modal {
+        max-width: 90vw;
+    }
+}
+
+@media (min-width: 701px) {
+    .consent-modal {
+        max-width: 650px;
     }
 }
 
