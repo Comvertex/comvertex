@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -46,57 +46,55 @@
             </div>
         </div>
     </main>
-    
-    <div class="banner-container">
-        <div id="consent-modal" class="consent-modal">
-            <div class="consent-content">
-                <h2>Manage Consent</h2>
-                
-                <div class="consent-description">
-                    <p>We use cookies to provide the best experience on our website. By continuing to use this site, you consent to our use of cookies.</p>
+
+    <div class="blue-banner">
+        <nav class="menu">
+            <ul>
+                <li>SERVICES</li>
+                <li>PORTFOLIO</li>
+                <li>ABOUT</li>
+                <li>CONTACT</li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="consent-modal" class="consent-modal">
+        <div class="consent-content">
+            <h2>Manage Consent</h2>
+
+            <div class="consent-description">
+                <p>We use cookies to provide the best experience on our website. By continuing to use this site, you consent to our use of cookies.</p>
+            </div>
+
+            <div id="consent-preferences" class="consent-preferences">
+                <div class="preference-group">
+                    <div class="preference-header">
+                        <h3>Functional</h3>
+                        <span class="always-active">Always active</span>
+                    </div>
+                    <p>Technical storage strictly necessary for providing services explicitly requested by the user.</p>
                 </div>
 
-                <div id="consent-preferences" class="consent-preferences" style="display: none;">
-                    <div class="preference-group">
-                        <div class="preference-header">
-                            <h3>Functional</h3>
-                            <span class="always-active">Always active</span>
-                        </div>
-                        <p>Technical storage strictly necessary for providing services explicitly requested by the user.</p>
+                <div class="preference-group">
+                    <div class="preference-header">
+                        <h3>Marketing</h3>
+                        <label class="toggle">
+                            <input type="checkbox" id="marketing-toggle">
+                            <span class="slider"></span>
+                        </label>
                     </div>
-                    
-                    <div class="preference-group">
-                        <div class="preference-header">
-                            <h3>Marketing</h3>
-                            <label class="toggle">
-                                <input type="checkbox" id="marketing-toggle">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                        <p>Used for creating user profiles for advertising or tracking users across websites for marketing purposes.</p>
-                    </div>
-                </div>
-
-                <div class="consent-actions">
-                    <button id="accept-all" class="primary-button">Accept All</button>
-                    <button id="manage-preferences" class="secondary-button">Manage Preferences</button>
-                    <button id="save-preferences" class="secondary-button" style="display: none;">Save Preferences</button>
-                    <button id="reject-all" class="secondary-button">Continue without accepting</button>
+                    <p>Used for creating user profiles for advertising or tracking users across websites for marketing purposes.</p>
                 </div>
             </div>
-        </div>
-        <div class="blue-banner">
-            <nav class="menu">
-                <ul>
-                    <li>SERVICES</li>
-                    <li>PORTFOLIO</li>
-                    <li>ABOUT</li>
-                    <li>CONTACT</li>
-                </ul>
-            </nav>
+
+            <div class="consent-actions">
+                <button id="accept-all" class="primary-button">Accept All</button>
+                <button id="manage-preferences" class="secondary-button">Manage Preferences</button>
+                <button id="save-preferences" class="secondary-button" style="display: none;">Save Preferences</button>
+                <button id="reject-all" class="secondary-button">Continue without accepting</button>
+            </div>
         </div>
     </div>
 
     <script src="index.js"></script>
 </body>
-</html> 
