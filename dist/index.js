@@ -61,6 +61,12 @@ document.addEventListener('DOMContentLoaded', () => {
                             item.style.transform = 'translateY(0)';
                         }, index * 100);
                     });
+
+                    // Show the consent modal at the same time
+                    const consentModal = document.getElementById('consent-modal');
+                    if (consentModal) {
+                        consentModal.classList.add('show');
+                    }
                 }, 800);
             }, 1000);
         }, 300);

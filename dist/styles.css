@@ -242,9 +242,9 @@ body {
 
 .consent-modal {
     position: fixed;
-    bottom: 21vh;
+    bottom: calc(100vh - 21vh);
     left: 50%;
-    transform: translate(-50%, 20px);
+    transform: translateX(-50%);
     width: max-content;
     max-width: 90vw;
     background-color: #fff;
@@ -258,12 +258,11 @@ body {
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    transition: transform 0.8s ease-in, opacity 0.8s ease-in;
+    transition: opacity 2.4s ease-in;
 }
 
 .consent-modal.show {
     opacity: 1;
-    transform: translate(-50%, 0);
 }
 
 .consent-content {
@@ -404,8 +403,8 @@ body {
 }
 
 .primary-button {
-    background-color: #fff;
-    color: #0C1E37;
+    background-color: #0C1E37;
+    color: #fff;
 }
 
 .secondary-button {
