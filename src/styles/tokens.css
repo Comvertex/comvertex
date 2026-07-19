@@ -1,0 +1,93 @@
+/* ─────────────────────────────────────────────────────────────
+   COMVERTEX — design tokens (P0 · visual language)
+   Extracted from logo files: wordmark ink #131728 · mark navy #0C1E37
+   Palette discipline: ~60% white · 30% blue · 10% deep orange
+   ───────────────────────────────────────────────────────────── */
+:root {
+  /* Palette — brand (extracted from logo files) */
+  --navy-950: #131728;   /* wordmark ink — deepest brand navy */
+  --navy-900: #0C1E37;   /* mark & signature navy — primary ink */
+  --blue-700: #1A3A66;   /* derived lift of navy-900, same hue */
+  --blue-500: #2B5FA3;   /* identity blue — interactive, emphasis */
+  --blue-300: #7FA5CF;   /* whisper blue — meta, hairlines on blue */
+  --blue-100: #D9E5F2;   /* blue wash — coolest surface tint */
+  --orange-600: #C2491C; /* deep orange — THE accent (≤10%) */
+  --orange-700: #A03A12; /* accent pressed / active */
+  --orange-100: #F9E2D6; /* accent wash — small fields only */
+  --white-warm: #FCFBF8; /* base page white (warm) */
+  --white-pure: #FFFFFF; /* raised planes */
+  --white-cool: #F3F6FA; /* recessed planes (cool) */
+  --white-blue: #E9EFF6; /* furthest layer — deepest wash */
+
+  /* Semantic roles */
+  --ink: var(--navy-900);          /* headings + body — text = primary */
+  --ink-2: #4A5C77;                /* secondary text */
+  --ink-3: #8494AB;                /* meta / captions */
+  --accent: var(--orange-600);     /* hover, active — the one hot moment */
+  --accent-down: var(--orange-700);
+  --surface-0: var(--white-warm);  /* page base */
+  --surface-1: var(--white-pure);  /* raised plane */
+  --surface-2: var(--white-cool);  /* recessed plane */
+  --surface-3: var(--white-blue);  /* furthest layer / washes */
+  --line: #DEE6EF;
+  --focus: color-mix(in oklab, var(--blue-500) 45%, transparent);
+
+  /* Type — Satoshi (display) + Switzer (text), variable, self-hosted */
+  --font-display: "Satoshi", system-ui, -apple-system, sans-serif;
+  --font-text: "Switzer", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace; /* the machine layer: nav, tags, meta */
+  --text-hero: clamp(3.25rem, 7.5vw, 6.75rem);   /* single H1 · lh 0.98 */
+  --text-h2: clamp(2.125rem, 4vw, 3.5rem);       /* lh 1.05 */
+  --text-h3: clamp(1.375rem, 2vw, 1.75rem);      /* lh 1.2  */
+  --text-lead: clamp(1.125rem, 1.4vw, 1.3125rem);/* lh 1.55 */
+  --text-body: 1.0625rem;                        /* lh 1.6  */
+  --text-small: 0.875rem;
+  --text-tag: 0.8125rem;                         /* mono caps · ls .12em */
+  --track-display: -0.022em;
+  --track-caps: 0.14em;
+  --measure: 56ch;
+
+  /* Space — 4px base */
+  --space-1: 4px;   --space-2: 8px;    --space-3: 12px;  --space-4: 16px;
+  --space-5: 24px;  --space-6: 32px;   --space-7: 48px;  --space-8: 64px;
+  --space-9: 96px;  --space-10: 128px; --space-11: 160px; --space-12: 224px;
+
+  /* Radius */
+  --radius-1: 6px; --radius-2: 12px; --radius-3: 20px; --radius-pill: 999px;
+
+  /* Depth — light as material: blue-tinted, low-contrast, never grey */
+  --shadow-1: 0 1px 2px rgba(12,30,55,.04), 0 6px 20px rgba(12,30,55,.05);
+  --shadow-2: 0 2px 4px rgba(12,30,55,.05), 0 16px 44px rgba(12,30,55,.08);
+  --edge-light: inset 0 1px 0 rgba(255,255,255,.85);
+  --halo-blue: 0 0 120px 30px rgba(43,95,163,.10);
+
+  /* Motion — all choreography draws from these */
+  --dur-micro: 160ms;   /* hovers, focus, cursor feedback */
+  --dur-swift: 320ms;   /* buttons, small reveals */
+  --dur-reveal: 640ms;  /* masked type, module entrances */
+  --dur-scene: 1000ms;  /* scene-to-scene transitions */
+  --dur-drift: 26s;     /* generative background idle drift */
+  --ease-fluid: cubic-bezier(0.33, 1, 0.68, 1);    /* default out — all UI */
+  --ease-lift: cubic-bezier(0.22, 1, 0.36, 1);     /* entrances, type reveals */
+  --ease-glide: cubic-bezier(0.65, 0, 0.35, 1);    /* scene camera moves */
+  --ease-magnetic: cubic-bezier(0.2, 0.8, 0.2, 1); /* cursor-follow, magnetic hover */
+}
+
+/* Reduced motion: compositions stay, choreography stops.
+   States land instantly; the generative background holds a still frame. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-micro: 1ms; --dur-swift: 1ms; --dur-reveal: 1ms;
+    --dur-scene: 1ms; --dur-drift: 0s;
+  }
+}
+
+/* Usage rules
+   1. Text is always primary navy (--ink). Hover/active = --accent.
+   2. Accent is never a field larger than a chip; ≤10% of any viewport.
+   3. --blue-500 for emphasis + interactive affordances; --navy-950
+      reserved for the wordmark and rare near-black moments.
+   4. Layer whites by depth: page = warm, raised = pure,
+      recessed = cool, furthest = blue wash.
+   5. Elevation is light, not grey: shadows stay blue-tinted + soft;
+      raised planes get --edge-light. */
