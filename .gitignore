@@ -1,6 +1,8 @@
-build
-#dist
-/media
 node_modules
+dist
+.claude/
 .DS_Store
 .env
+.netlify
+
+design_handoff_comvertex_site/

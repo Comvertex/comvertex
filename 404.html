@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>404 — Comvertex</title>
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#FCFBF8" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link
+      rel="preload"
+      href="/fonts/Satoshi-Medium.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/Switzer-Regular.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <script type="module" src="/src/404.ts"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <div class="page page--404" id="page">
+      <div class="nf-wash" aria-hidden="true"></div>
+      <canvas class="weave" id="weave" aria-hidden="true"></canvas>
+
+      <header class="site-header">
+        <div class="header-progress" aria-hidden="true"></div>
+        <a class="header-logo" href="/" aria-label="Comvertex — home">
+          <img src="/logo-blue-text.png" alt="Comvertex" width="932" height="718" />
+        </a>
+      </header>
+
+      <main class="nf-main" id="main">
+        <p class="nf-kicker" data-reveal="0">
+          404 / A DEAD END — THE ONE BOTTLENECK I WON'T REMOVE
+        </p>
+        <h1 id="nf-title" data-reveal="120">This page isn't on the map</h1>
+        <p class="nf-copy" data-reveal="240">
+          The node you followed connects to nothing. Head back to solid ground.
+        </p>
+        <a class="pill pill--primary" href="/" data-reveal="360"
+          >Back to the site <span aria-hidden="true">→</span></a
+        >
+      </main>
+    </div>
+  </body>
+</html>
