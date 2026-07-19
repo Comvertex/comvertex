@@ -109,7 +109,9 @@ void main() {
 
 export function createWeave(opts: WeaveOptions): WeaveHandle {
   const { canvas, reduced } = opts;
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  // DPR cap: ≤2 desktop, ≤1.5 on small screens — fill rate is the
+  // dominant cost on weak mobile GPUs and the field reads identically
+  let dpr = Math.min(window.devicePixelRatio || 1, window.innerWidth < 700 ? 1.5 : 2);
   const rnd =
     reduced || opts.seed != null ? mulberry32(opts.seed ?? 20260719) : Math.random;
 
@@ -207,10 +209,44 @@ export function createWeave(opts: WeaveOptions): WeaveHandle {
   let landing: { node: WNode; x: number; y: number; t: number } | null = null;
   let destroyed = false;
   let paused = false;
+  let halted = false; // governor gave up — hold the last frame
   let raf = 0;
   let lastFrame = 0;
   let lastTime = performance.now();
   let shown = false;
+
+  /* Frame-time governor: if a device can't hold the target frame rate,
+     step down — first render resolution, then node density, and as a
+     last resort hold a still frame (same design, weave at rest). */
+  let densityScale = 1;
+  let govTier = 0;
+  let govWarmup = 60;
+  let govCount = 0;
+  let govAccum = 0;
+
+  const governor = (gap: number) => {
+    if (govWarmup > 0) {
+      govWarmup--;
+      return;
+    }
+    govAccum += Math.min(gap, 200);
+    if (++govCount < 90) return;
+    const avg = govAccum / govCount;
+    govCount = 0;
+    govAccum = 0;
+    if (avg <= 27) return; // holding ≥ ~37fps of real work — leave it be
+    govTier++;
+    if (govTier === 1) {
+      dpr = 1;
+      renderer.dpr = 1;
+      resize();
+    } else if (govTier === 2) {
+      densityScale = 0.6;
+    } else {
+      halted = true;
+      cancelAnimationFrame(raf);
+    }
+  };
 
   const resize = () => {
     w = window.innerWidth;
@@ -244,10 +280,11 @@ export function createWeave(opts: WeaveOptions): WeaveHandle {
     ptr.tx = e.clientX / w;
     ptr.ty = e.clientY / h;
   };
-  if (!reduced) window.addEventListener('pointermove', onMove, { passive: true });
+  const finePtr = matchMedia('(pointer: fine)').matches;
+  if (!reduced && finePtr) window.addEventListener('pointermove', onMove, { passive: true });
 
   const onVisibility = () => {
-    if (reduced) return;
+    if (reduced || halted) return;
     if (document.hidden) {
       paused = true;
       cancelAnimationFrame(raf);
@@ -280,7 +317,7 @@ export function createWeave(opts: WeaveOptions): WeaveHandle {
       ptr.y += (ptr.ty - ptr.y) * 0.05 * step;
     }
 
-    const activeCount = Math.min(MAX_NODES, Math.round(baseCount * mood.dCur));
+    const activeCount = Math.min(MAX_NODES, Math.round(baseCount * mood.dCur * densityScale));
     const scrollOff = (window.scrollY * 0.3) % fieldH;
     const px = ptr.x * w;
     const py = ptr.y * h;
@@ -407,11 +444,13 @@ export function createWeave(opts: WeaveOptions): WeaveHandle {
   }
 
   function loop(now: number): void {
-    if (destroyed || paused) return;
+    if (destroyed || paused || halted) return;
     raf = requestAnimationFrame(loop);
     if (now - lastFrame < 16) return; // 60fps cap
+    const gap = now - lastFrame;
     lastFrame = now;
     frame(now);
+    governor(gap);
   }
 
   if (reduced) {

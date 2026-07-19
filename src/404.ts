@@ -18,21 +18,25 @@ function startWeave(): void {
   const canvas = document.getElementById('weave') as HTMLCanvasElement | null;
   const title = document.getElementById('nf-title');
   if (!canvas) return;
-  import('./modules/weave').then(({ createWeave }) => {
-    createWeave({
-      canvas,
-      reduced,
-      seed: 404,
-      loneAnchor: () => {
-        if (!title) return null;
-        const r = title.getBoundingClientRect();
-        return {
-          x: Math.min(window.innerWidth - 32, r.right + 40),
-          y: r.top + r.height * 0.35,
-        };
-      },
+  import('./modules/weave')
+    .then(({ createWeave }) => {
+      createWeave({
+        canvas,
+        reduced,
+        seed: 404,
+        loneAnchor: () => {
+          if (!title) return null;
+          const r = title.getBoundingClientRect();
+          return {
+            x: Math.min(window.innerWidth - 32, r.right + 40),
+            y: r.top + r.height * 0.35,
+          };
+        },
+      });
+    })
+    .catch(() => {
+      /* no WebGL — the page simply runs without the weave */
     });
-  });
 }
 
 if ('requestIdleCallback' in window) {

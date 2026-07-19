@@ -4,7 +4,7 @@ import './styles/base.css';
 import './styles/site.css';
 
 import { reduced, finePointer } from './modules/env';
-import { ScrollTrigger } from './modules/motion';
+import { gsap, ScrollTrigger } from './modules/motion';
 import { initScroll, initHeader, initSpy, type SceneId } from './modules/scroll';
 import { initMenu } from './modules/menu';
 import { initReveals, type ArrivalMode } from './modules/reveals';
@@ -44,7 +44,16 @@ const { playArrival } = initReveals(arrivalMode);
 initSpy(applyMood);
 initCursor();
 
-if (sunrise) playSunrise({ onArrival: () => void playArrival() });
+if (sunrise) {
+  playSunrise({ onArrival: () => void playArrival() });
+} else if (!reduced) {
+  // no veil this load — still ease the page in instead of popping
+  gsap.fromTo(
+    'main',
+    { autoAlpha: 0 },
+    { autoAlpha: 1, duration: 0.48, ease: 'power1.inOut', clearProps: 'opacity,visibility' },
+  );
+}
 
 initForm((successEl) => {
   // one orange node drifts to rest beside the confirmation line
@@ -58,20 +67,24 @@ initForm((successEl) => {
 function startWeave(): void {
   const canvas = document.getElementById('weave') as HTMLCanvasElement | null;
   if (!canvas) return;
-  import('./modules/weave').then(({ createWeave }) => {
-    weave = createWeave({ canvas, reduced });
-    applyMood(currentScene);
+  import('./modules/weave')
+    .then(({ createWeave }) => {
+      weave = createWeave({ canvas, reduced });
+      applyMood(currentScene);
 
-    // Portfolio row hover: the weave gathers gently behind it
-    if (finePointer && !reduced) {
-      document.querySelectorAll<HTMLElement>('.pf-row').forEach((row) => {
-        row.addEventListener('pointerenter', () =>
-          weave?.setFocusRect(row.getBoundingClientRect()),
-        );
-        row.addEventListener('pointerleave', () => weave?.setFocusRect(null));
-      });
-    }
-  });
+      // Portfolio row hover: the weave gathers gently behind it
+      if (finePointer && !reduced) {
+        document.querySelectorAll<HTMLElement>('.pf-row').forEach((row) => {
+          row.addEventListener('pointerenter', () =>
+            weave?.setFocusRect(row.getBoundingClientRect()),
+          );
+          row.addEventListener('pointerleave', () => weave?.setFocusRect(null));
+        });
+      }
+    })
+    .catch(() => {
+      /* no WebGL — the site simply runs without the weave */
+    });
 }
 
 if ('requestIdleCallback' in window) {
