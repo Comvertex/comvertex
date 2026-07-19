@@ -7,7 +7,8 @@ import { reduced, finePointer } from './modules/env';
 import { ScrollTrigger } from './modules/motion';
 import { initScroll, initHeader, initSpy, type SceneId } from './modules/scroll';
 import { initMenu } from './modules/menu';
-import { initReveals } from './modules/reveals';
+import { initReveals, type ArrivalMode } from './modules/reveals';
+import { sunriseSeen, markSunriseSeen, playSunrise } from './modules/sunrise';
 import { initCursor } from './modules/cursor';
 import { initForm } from './modules/form';
 import type { WeaveHandle } from './modules/weave';
@@ -29,12 +30,21 @@ function applyMood(id: SceneId): void {
   weave?.setMood(...MOODS[id]);
 }
 
+/* Sunrise gate: first clean arrival this session gets the veil; deep
+   links, reduced motion and repeat visits land in final state instead */
+const deepLink = location.hash.length > 1;
+const sunrise = !reduced && !deepLink && !sunriseSeen();
+markSunriseSeen();
+const arrivalMode: ArrivalMode = sunrise ? 'deferred' : deepLink ? 'auto' : 'instant';
+
 initScroll();
 initHeader();
 initMenu();
-initReveals();
+const { playArrival } = initReveals(arrivalMode);
 initSpy(applyMood);
 initCursor();
+
+if (sunrise) playSunrise({ onArrival: () => void playArrival() });
 
 initForm((successEl) => {
   // one orange node drifts to rest beside the confirmation line

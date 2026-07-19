@@ -69,17 +69,20 @@ async function fontsSettled(): Promise<void> {
   await Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, 900))]);
 }
 
-/* ── 01 Arrival · load sequence ─────────────────────────────── */
-async function arrivalLoad(skip: boolean): Promise<void> {
+/* ── 01 Arrival · load sequence ─────────────────────────────────
+   Prepared eagerly (elements hidden pre-paint, H1 split once fonts
+   settle) and returns a play() so the sunrise veil can fire it at
+   its settle step instead of on load. */
+async function arrivalSetup(skip: boolean): Promise<() => void> {
+  const noop = () => {};
   const section = document.getElementById('arrival');
-  if (!section) return;
-  if (reduced || skip) return;
+  if (!section || reduced || skip) return noop;
 
   const kicker = section.querySelector<HTMLElement>('.arrival-kicker');
   const h1 = section.querySelector<HTMLElement>('h1');
   const lead = section.querySelector<HTMLElement>('.arrival-lead');
   const ctas = section.querySelector<HTMLElement>('.hero-ctas');
-  if (!kicker || !h1 || !lead || !ctas) return;
+  if (!kicker || !h1 || !lead || !ctas) return noop;
 
   gsap.set([kicker, lead, ctas], { y: 24, autoAlpha: 0 });
   gsap.set(h1, { autoAlpha: 0 });
@@ -87,20 +90,19 @@ async function arrivalLoad(skip: boolean): Promise<void> {
   await fontsSettled();
 
   const { lines, restore } = splitLines(h1);
-  gsap.set(h1, { autoAlpha: 1 });
+  gsap.set(h1, { autoAlpha: 0 });
   gsap.set(lines, { yPercent: 110 });
 
-  const f = k();
-  const tl = gsap.timeline({ defaults: { ease: 'lift' } });
-  tl.to(kicker, { y: 0, autoAlpha: 1, duration: DUR.reveal * f }, 0);
-  tl.to(
-    lines,
-    { yPercent: 0, duration: DUR.reveal * f, stagger: 0.12 * f },
-    0.12 * f,
-  );
-  tl.to(lead, { y: 0, autoAlpha: 1, duration: DUR.reveal * f }, 0.26 * f);
-  tl.to(ctas, { y: 0, autoAlpha: 1, duration: DUR.reveal * f }, 0.4 * f);
-  tl.call(() => restore(), [], `+=${0.1}`);
+  return () => {
+    gsap.set(h1, { autoAlpha: 1 });
+    const f = k();
+    const tl = gsap.timeline({ defaults: { ease: 'lift' } });
+    tl.to(kicker, { y: 0, autoAlpha: 1, duration: DUR.reveal * f }, 0);
+    tl.to(lines, { yPercent: 0, duration: DUR.reveal * f, stagger: 0.12 * f }, 0.12 * f);
+    tl.to(lead, { y: 0, autoAlpha: 1, duration: DUR.reveal * f }, 0.26 * f);
+    tl.to(ctas, { y: 0, autoAlpha: 1, duration: DUR.reveal * f }, 0.4 * f);
+    tl.call(() => restore(), [], `+=${0.1}`);
+  };
 }
 
 /* ── Generic per-element masked rises ───────────────────────── */
@@ -179,12 +181,19 @@ function aboutCardShadow(section: HTMLElement): void {
   );
 }
 
-export function initReveals(): void {
-  if (reduced) return; // everything already rests in final position
+export type ArrivalMode = 'auto' | 'deferred' | 'instant';
+
+export function initReveals(arrivalMode: ArrivalMode = 'auto'): {
+  playArrival: () => Promise<void>;
+} {
+  const noop = { playArrival: async () => {} };
+  if (reduced) return noop; // everything already rests in final position
 
   const done = preRevealedIds();
+  const skipArrival = done.size > 0 || arrivalMode === 'instant';
 
-  arrivalLoad(done.has('arrival') || done.size > 0);
+  const prepared = arrivalSetup(skipArrival);
+  if (arrivalMode === 'auto') prepared.then((play) => play());
 
   ['services', 'portfolio', 'about', 'contact'].forEach((id) => {
     const section = document.getElementById(id);
@@ -199,6 +208,10 @@ export function initReveals(): void {
   });
 
   ScrollTrigger.refresh();
+
+  return {
+    playArrival: () => prepared.then((play) => play()),
+  };
 }
 
 /* 404 page: simple load-in stack (no scroll dependence) */
