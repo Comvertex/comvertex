@@ -58,6 +58,8 @@ interface WNode {
   r: number;
   orange: boolean;
   a: number; // current alpha (density modulation)
+  g: number; // cursor-contact glow (0..1, eased)
+  gt: number; // glow target set by the cursor pass each frame
   px: number; // projected draw pos (CSS px, viewport space)
   py: number;
 }
@@ -121,11 +123,12 @@ void main() {
   vec3 rgb = vColor.rgb;
   if (vFlow > 0.5) {
     // energy drains from the node (x=0) toward the cursor (x=1):
-    // a travelling pulse plus a gradient that brightens and warms
-    // slightly as it approaches the cursor
-    float band = 0.55 + 0.45 * sin((vX * 2.5 - uTime * 1.5) * 6.28318);
-    a *= band * (0.45 + 0.55 * vX);
-    rgb = mix(rgb, vec3(0.761, 0.287, 0.11), vX * 0.5);
+    // the line stays solid link-blue while a distinct orange packet
+    // travels along it — colour does the work, not transparency
+    float wave = 0.5 + 0.5 * sin((vX * 2.0 - uTime * 1.6) * 6.28318);
+    float band = smoothstep(0.62, 0.95, wave);
+    rgb = mix(rgb, vec3(0.761, 0.287, 0.11), band);
+    a *= 0.9 + 0.5 * band;
   }
   gl_FragColor = vec4(rgb * a, a);
 }
@@ -215,6 +218,8 @@ export function createWeave(opts: WeaveOptions): WeaveHandle {
       r: 0.8 + rnd() * 1.1,
       orange: i % 43 === 7,
       a: 1,
+      g: 0,
+      gt: 0,
       px: 0,
       py: 0,
     });
@@ -408,15 +413,21 @@ export function createWeave(opts: WeaveOptions): WeaveHandle {
         n.py = n.py + (landing.y - n.py) * e;
       }
 
+      // cursor-contact glow: ignite fast, fade soft; dots warm to
+      // orange and swell slightly while the cursor holds them
+      n.g += (n.gt - n.g) * (n.gt > n.g ? 0.35 : 0.1) * step;
+      n.gt = 0; // the cursor pass re-arms this every frame it connects
+
       posData[i * 2] = n.px;
       posData[i * 2 + 1] = n.py;
-      sizeData[i] = Math.max(2, n.r * 2 * dpr);
+      sizeData[i] = Math.max(2, n.r * 2 * dpr * (1 + 0.4 * n.g));
       const c = n.orange ? ORANGE : BLUE;
-      const alpha = (n.orange ? 0.62 : 0.4) * n.a;
-      colorData[i * 4] = c[0];
-      colorData[i * 4 + 1] = c[1];
-      colorData[i * 4 + 2] = c[2];
-      colorData[i * 4 + 3] = alpha;
+      const glow = n.g;
+      const alpha = ((n.orange ? 0.62 : 0.4) + 0.4 * glow) * n.a;
+      colorData[i * 4] = c[0] + (ORANGE[0] - c[0]) * glow;
+      colorData[i * 4 + 1] = c[1] + (ORANGE[1] - c[1]) * glow;
+      colorData[i * 4 + 2] = c[2] + (ORANGE[2] - c[2]) * glow;
+      colorData[i * 4 + 3] = Math.min(1, alpha);
     }
 
     // ── lone node (404) ──
@@ -484,6 +495,7 @@ export function createWeave(opts: WeaveOptions): WeaveHandle {
         const d = Math.sqrt(dx * dx + dy * dy);
         if (d >= CURSOR_R || d < 8) continue;
         const near = 1 - d / CURSOR_R;
+        n.gt = near; // connected — the dot lights up while held
         iAData[seg * 2] = n.px;
         iAData[seg * 2 + 1] = n.py;
         iBData[seg * 2] = cur.x;
