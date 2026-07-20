@@ -35,6 +35,9 @@ export function markSunriseSeen(): void {
 }
 
 interface SunriseHooks {
+  /** step 3: the veil starts dissolving — surface the live weave now,
+      so it is fully faded in before the last slogan letter lands */
+  onDawn?: () => void;
   /** step 4: fire the hero's staggered reveals */
   onArrival: () => void;
   /** step 5: veil removed — the page is on its own now */
@@ -43,7 +46,7 @@ interface SunriseHooks {
 
 const SLOGAN_LINES = ['Your Guiding Hand', 'To Digital Ascent'];
 
-export function playSunrise({ onArrival, onDone }: SunriseHooks): void {
+export function playSunrise({ onDawn, onArrival, onDone }: SunriseHooks): void {
   const header = document.querySelector<HTMLElement>('.site-header');
   const headerLogo = document.querySelector<HTMLImageElement>('.header-logo img');
   const hero = document.getElementById('arrival');
@@ -111,7 +114,9 @@ export function playSunrise({ onArrival, onDone }: SunriseHooks): void {
   // 2 · slogan, per-letter, reading speed
   tl.to(chars, { opacity: 1, duration: 0.48, stagger: 0.048, ease: 'none' }, 1.5);
 
-  // 3 · background dawns — fully clear as the last letter lands
+  // 3 · background dawns — fully clear as the last letter lands;
+  // the weave starts now so it is already alive behind the dissolve
+  tl.call(() => onDawn?.(), [], 1.5);
   tl.to(veil, { backgroundColor: 'rgba(252,251,248,0)', duration: bgDur, ease: 'none' }, 1.5);
 
   // 4 · vertical settle

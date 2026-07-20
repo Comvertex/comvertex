@@ -48,11 +48,11 @@ initCursor();
 
 if (sunrise) {
   playSunrise({
-    onArrival: () => void playArrival(),
-    onDone: () => {
+    onDawn: () => {
       weaveWanted = true;
       weave?.start();
     },
+    onArrival: () => void playArrival(),
   });
 } else if (!reduced && deepLink) {
   // deep links land pre-revealed — ease the page in instead of popping
