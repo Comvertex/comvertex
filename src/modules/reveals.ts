@@ -91,7 +91,9 @@ async function arrivalSetup(skip: boolean): Promise<() => void> {
 
   const { lines, restore } = splitLines(h1);
   gsap.set(h1, { autoAlpha: 0 });
-  gsap.set(lines, { yPercent: 110 });
+  // 120, not 110 — the masks now reach below the line box for
+  // descenders, so lines must start a touch lower to stay hidden
+  gsap.set(lines, { yPercent: 120 });
 
   return () => {
     gsap.set(h1, { autoAlpha: 1 });

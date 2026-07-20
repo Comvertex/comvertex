@@ -443,10 +443,14 @@ main {
   text-wrap: balance;
 }
 
-/* line masks injected by the load choreography */
+/* line masks injected by the load choreography — the mask extends
+   below the tight 0.98 line box (padding + negative margin) so
+   descenders (g, y) are never cropped while a line rises in */
 .h1-line-mask {
   display: block;
   overflow: hidden;
+  padding-bottom: 0.18em;
+  margin-bottom: -0.18em;
 }
 
 .h1-line {
