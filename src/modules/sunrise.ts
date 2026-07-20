@@ -37,16 +37,19 @@ export function markSunriseSeen(): void {
 interface SunriseHooks {
   /** step 4: fire the hero's staggered reveals */
   onArrival: () => void;
+  /** step 5: veil removed — the page is on its own now */
+  onDone?: () => void;
 }
 
 const SLOGAN_LINES = ['Your Guiding Hand', 'To Digital Ascent'];
 
-export function playSunrise({ onArrival }: SunriseHooks): void {
+export function playSunrise({ onArrival, onDone }: SunriseHooks): void {
   const header = document.querySelector<HTMLElement>('.site-header');
   const headerLogo = document.querySelector<HTMLImageElement>('.header-logo img');
   const hero = document.getElementById('arrival');
   if (!header || !headerLogo || !hero) {
     onArrival();
+    onDone?.();
     return;
   }
 
@@ -148,6 +151,7 @@ export function playSunrise({ onArrival }: SunriseHooks): void {
         () => {
           gsap.set(headerLogo, { opacity: 1 });
           veil.remove();
+          onDone?.();
         },
         [],
         1.12,

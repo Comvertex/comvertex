@@ -81,7 +81,8 @@ main {
   align-items: center;
   justify-content: center;
   gap: clamp(24px, 4vh, 40px);
-  pointer-events: none;
+  /* intercepts pointer input — the page beneath is not interactive
+     until the veil lands */
 }
 
 .veil-logo {
@@ -922,15 +923,10 @@ main {
     padding: 48px 24px;
   }
 
-  /* gentle per-scene snap on small screens */
-  html {
-    scroll-snap-type: y proximity;
-  }
-
-  .scene,
-  .arrival {
-    scroll-snap-align: start;
-  }
+  /* NOTE: the spec's per-scene scroll-snap was removed — on real devices
+     proximity snap pins the scroll to the arrival edge below the sticky
+     header (top becomes unreachable, pull-to-refresh fires) and makes
+     scrolling feel stuck between scenes. Free scrolling wins. */
 }
 
 /* Comfortable hit targets on touch */
@@ -948,9 +944,5 @@ main {
 @media (prefers-reduced-motion: reduce) {
   .clouds {
     animation: none;
-  }
-
-  html {
-    scroll-snap-type: none;
   }
 }

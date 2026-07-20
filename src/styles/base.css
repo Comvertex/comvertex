@@ -12,6 +12,12 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+/* When Lenis drives the camera it owns all easing — CSS smoothing on top
+   would double-animate every programmatic scroll (Lenis adds .lenis) */
+html.lenis {
+  scroll-behavior: auto;
+}
+
 body {
   margin: 0;
   background: var(--surface-0);

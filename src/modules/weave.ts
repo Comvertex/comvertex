@@ -4,8 +4,9 @@
    · viewport-sized WebGL canvas (fixed), field parallaxes at 0.3× scroll
    · density: area/16000 (≥700px) — ~90 nodes/viewport at 1440, cap 440;
      area/9000 below 700px (~mobile reference density)
-   · every ~43rd node is orange (rgba(194,73,28,.5)), links glow warm
-   · links within 150px (105px <700px), opacity near×0.13 blue / ×0.16 warm
+   · every ~43rd node is orange, links glow warm
+   · links within 150px (105px <700px); alphas run ~50% above the
+     prototype reference (client asked for a more present field)
    · gaussian pointer pull (lerp 0.05), faint upward drift, edge wrap
    · per-scene mood: density +15% on Portfolio, −30% and slowed on Contact
    · 60fps cap, DPR ≤2, paused when tab hidden
@@ -17,6 +18,8 @@ export interface WeaveHandle {
   setMood(density: number, speed: number): void;
   setFocusRect(rect: DOMRect | null): void;
   landOrangeNode(x: number, y: number): void;
+  /** begin rendering (no-op if already running) — used with startPaused */
+  start(): void;
   destroy(): void;
 }
 
@@ -24,6 +27,9 @@ export interface WeaveOptions {
   canvas: HTMLCanvasElement;
   reduced: boolean;
   seed?: number;
+  /** build everything but hold rendering until start() — lets the sunrise
+      veil run without WebGL cost, then fade the field in after landing */
+  startPaused?: boolean;
   /** 404: one orange node sits alone, unconnected — anchor in viewport px */
   loneAnchor?: () => { x: number; y: number } | null;
 }
@@ -164,7 +170,7 @@ export function createWeave(opts: WeaveOptions): WeaveHandle {
   const lineProgram = new Program(gl, {
     vertex: LINE_VERT,
     fragment: LINE_FRAG,
-    uniforms: { uRes: { value: [1, 1] }, uWidth: { value: 0.75 } },
+    uniforms: { uRes: { value: [1, 1] }, uWidth: { value: 1 } },
     transparent: true,
     cullFace: false,
     depthTest: false,
@@ -284,7 +290,7 @@ export function createWeave(opts: WeaveOptions): WeaveHandle {
   if (!reduced && finePtr) window.addEventListener('pointermove', onMove, { passive: true });
 
   const onVisibility = () => {
-    if (reduced || halted) return;
+    if (reduced || halted || !started) return;
     if (document.hidden) {
       paused = true;
       cancelAnimationFrame(raf);
@@ -367,7 +373,7 @@ export function createWeave(opts: WeaveOptions): WeaveHandle {
       posData[i * 2 + 1] = n.py;
       sizeData[i] = Math.max(2, n.r * 2 * dpr);
       const c = n.orange ? ORANGE : BLUE;
-      const alpha = (n.orange ? 0.5 : 0.28) * n.a;
+      const alpha = (n.orange ? 0.62 : 0.4) * n.a;
       colorData[i * 4] = c[0];
       colorData[i * 4 + 1] = c[1];
       colorData[i * 4 + 2] = c[2];
@@ -408,7 +414,7 @@ export function createWeave(opts: WeaveOptions): WeaveHandle {
         if (d >= eff) continue;
         const near = 1 - d / eff;
         const warm = a.orange || b.orange;
-        const alpha = near * (warm ? 0.16 : 0.13) * a.a * b.a;
+        const alpha = near * (warm ? 0.25 : 0.19) * a.a * b.a;
         const c = warm ? ORANGE : BLUE;
         iAData[seg * 2] = a.px;
         iAData[seg * 2 + 1] = a.py;
@@ -453,13 +459,21 @@ export function createWeave(opts: WeaveOptions): WeaveHandle {
     governor(gap);
   }
 
-  if (reduced) {
-    frame(performance.now(), true);
-  } else {
-    raf = requestAnimationFrame(loop);
-  }
+  let started = false;
+  const start = () => {
+    if (started || destroyed) return;
+    started = true;
+    if (reduced) {
+      frame(performance.now(), true);
+    } else {
+      lastTime = performance.now();
+      raf = requestAnimationFrame(loop);
+    }
+  };
+  if (!opts.startPaused) start();
 
   return {
+    start,
     setMood(density: number, speed: number) {
       mood.density = density;
       mood.speed = speed;

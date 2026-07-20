@@ -24,13 +24,17 @@ export function initScroll(): void {
       const target = document.querySelector<HTMLElement>(hash);
       if (!target) return;
       e.preventDefault();
+      // arrival IS the top of the page — scroll fully home, header expands
+      const dest: HTMLElement | number = hash === '#arrival' ? 0 : target;
       if (lenis) {
         lenis.start();
-        lenis.scrollTo(target, { duration: DUR.scene, easing: easeGlide });
+        lenis.scrollTo(dest, { duration: DUR.scene, easing: easeGlide });
+      } else if (dest === 0) {
+        window.scrollTo(0, 0);
       } else {
         target.scrollIntoView();
       }
-      history.replaceState(null, '', hash);
+      history.replaceState(null, '', hash === '#arrival' ? location.pathname : hash);
     });
   });
 }

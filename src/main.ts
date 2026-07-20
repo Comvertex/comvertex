@@ -45,7 +45,13 @@ initSpy(applyMood);
 initCursor();
 
 if (sunrise) {
-  playSunrise({ onArrival: () => void playArrival() });
+  playSunrise({
+    onArrival: () => void playArrival(),
+    onDone: () => {
+      weaveWanted = true;
+      weave?.start();
+    },
+  });
 } else if (!reduced) {
   // no veil this load — still ease the page in instead of popping
   gsap.fromTo(
@@ -63,13 +69,19 @@ initForm((successEl) => {
   weave?.landOrangeNode(x, y);
 });
 
-/* The weave — lazy init after first paint; fades in over --dur-scene */
+/* The weave — lazy init after first paint; fades in over --dur-scene.
+   While the sunrise veil plays, it is built but held: rendering starts
+   (and the fade-in runs) only once the veil logo has landed, so the
+   whole load sequence stays light and the field arrives gradually. */
+let weaveWanted = !sunrise;
 function startWeave(): void {
   const canvas = document.getElementById('weave') as HTMLCanvasElement | null;
   if (!canvas) return;
   import('./modules/weave')
     .then(({ createWeave }) => {
-      weave = createWeave({ canvas, reduced });
+      weave = createWeave({ canvas, reduced, startPaused: !weaveWanted });
+      if (weaveWanted) weave.start();
+      else setTimeout(() => weave?.start(), 12000); // failsafe if the veil never lands
       applyMood(currentScene);
 
       // Portfolio row hover: the weave gathers gently behind it
