@@ -91,11 +91,16 @@ attribute vec2 position; // x: 0..1 along segment, y: -0.5..0.5 across
 attribute vec2 iA;
 attribute vec2 iB;
 attribute vec4 iColor;
+attribute float iFlow;
 uniform vec2 uRes;
 uniform float uWidth;
 varying vec4 vColor;
+varying float vX;
+varying float vFlow;
 void main() {
   vColor = iColor;
+  vX = position.x;
+  vFlow = iFlow;
   vec2 dir = iB - iA;
   float len = max(length(dir), 0.0001);
   vec2 n = vec2(-dir.y, dir.x) / len;
@@ -108,8 +113,21 @@ void main() {
 const LINE_FRAG = /* glsl */ `
 precision mediump float;
 varying vec4 vColor;
+varying float vX;
+varying float vFlow;
+uniform float uTime;
 void main() {
-  gl_FragColor = vec4(vColor.rgb * vColor.a, vColor.a);
+  float a = vColor.a;
+  vec3 rgb = vColor.rgb;
+  if (vFlow > 0.5) {
+    // energy drains from the node (x=0) toward the cursor (x=1):
+    // a travelling pulse plus a gradient that brightens and warms
+    // slightly as it approaches the cursor
+    float band = 0.55 + 0.45 * sin((vX * 2.5 - uTime * 1.5) * 6.28318);
+    a *= band * (0.45 + 0.55 * vX);
+    rgb = mix(rgb, vec3(0.761, 0.287, 0.11), vX * 0.5);
+  }
+  gl_FragColor = vec4(rgb * a, a);
 }
 `;
 
@@ -160,17 +178,19 @@ export function createWeave(opts: WeaveOptions): WeaveHandle {
   const iAData = new Float32Array(MAX_SEGS * 2);
   const iBData = new Float32Array(MAX_SEGS * 2);
   const iColorData = new Float32Array(MAX_SEGS * 4);
+  const iFlowData = new Float32Array(MAX_SEGS);
 
   const lineGeo = new Geometry(gl, {
     position: { size: 2, data: quad },
     iA: { size: 2, data: iAData, instanced: 1, usage: gl.DYNAMIC_DRAW },
     iB: { size: 2, data: iBData, instanced: 1, usage: gl.DYNAMIC_DRAW },
     iColor: { size: 4, data: iColorData, instanced: 1, usage: gl.DYNAMIC_DRAW },
+    iFlow: { size: 1, data: iFlowData, instanced: 1, usage: gl.DYNAMIC_DRAW },
   });
   const lineProgram = new Program(gl, {
     vertex: LINE_VERT,
     fragment: LINE_FRAG,
-    uniforms: { uRes: { value: [1, 1] }, uWidth: { value: 1 } },
+    uniforms: { uRes: { value: [1, 1] }, uWidth: { value: 1 }, uTime: { value: 0 } },
     transparent: true,
     cullFace: false,
     depthTest: false,
@@ -282,12 +302,31 @@ export function createWeave(opts: WeaveOptions): WeaveHandle {
   };
   window.addEventListener('resize', onResize);
 
+  // fast follower for the connection lines — same lerp as the visible
+  // node cursor, so the energy lines appear to root at the cursor dot
+  const cur = { x: -9999, y: -9999, tx: -9999, ty: -9999 };
+
   const onMove = (e: PointerEvent) => {
     ptr.tx = e.clientX / w;
     ptr.ty = e.clientY / h;
+    if (cur.tx < -9000) {
+      cur.x = e.clientX;
+      cur.y = e.clientY;
+    }
+    cur.tx = e.clientX;
+    cur.ty = e.clientY;
+  };
+  const onLeave = () => {
+    cur.tx = -9999;
+    cur.ty = -9999;
+    cur.x = -9999;
+    cur.y = -9999;
   };
   const finePtr = matchMedia('(pointer: fine)').matches;
-  if (!reduced && finePtr) window.addEventListener('pointermove', onMove, { passive: true });
+  if (!reduced && finePtr) {
+    window.addEventListener('pointermove', onMove, { passive: true });
+    document.addEventListener('pointerleave', onLeave);
+  }
 
   const onVisibility = () => {
     if (reduced || halted || !started) return;
@@ -424,8 +463,37 @@ export function createWeave(opts: WeaveOptions): WeaveHandle {
         iColorData[seg * 4 + 1] = c[1];
         iColorData[seg * 4 + 2] = c[2];
         iColorData[seg * 4 + 3] = alpha;
+        iFlowData[seg] = 0;
         seg++;
         if (seg >= MAX_SEGS) break;
+      }
+    }
+
+    // ── cursor connections — the node cursor draws energy from the
+    //    dots it reaches (flow-shaded lines, node → cursor) ──
+    if (!reduced && cur.tx > -9000) {
+      cur.x += (cur.tx - cur.x) * 0.28 * step;
+      cur.y += (cur.ty - cur.y) * 0.28 * step;
+      const CURSOR_R = linkR * 1.25;
+      for (let i = 0; i < activeCount && seg < MAX_SEGS; i++) {
+        const n = nodes[i];
+        if (n.a < 0.05) continue;
+        const dx = n.px - cur.x;
+        const dy = n.py - cur.y;
+        if (Math.abs(dx) > CURSOR_R || Math.abs(dy) > CURSOR_R) continue;
+        const d = Math.sqrt(dx * dx + dy * dy);
+        if (d >= CURSOR_R || d < 8) continue;
+        const near = 1 - d / CURSOR_R;
+        iAData[seg * 2] = n.px;
+        iAData[seg * 2 + 1] = n.py;
+        iBData[seg * 2] = cur.x;
+        iBData[seg * 2 + 1] = cur.y;
+        iColorData[seg * 4] = BLUE[0];
+        iColorData[seg * 4 + 1] = BLUE[1];
+        iColorData[seg * 4 + 2] = BLUE[2];
+        iColorData[seg * 4 + 3] = near * 0.34 * n.a;
+        iFlowData[seg] = 1;
+        seg++;
       }
     }
 
@@ -438,7 +506,9 @@ export function createWeave(opts: WeaveOptions): WeaveHandle {
     lineGeo.attributes.iA.needsUpdate = true;
     lineGeo.attributes.iB.needsUpdate = true;
     lineGeo.attributes.iColor.needsUpdate = true;
+    lineGeo.attributes.iFlow.needsUpdate = true;
     lineGeo.instancedCount = seg;
+    lineProgram.uniforms.uTime.value = now * 0.001;
 
     lines.visible = seg > 0;
     renderer.render({ scene });
@@ -491,6 +561,7 @@ export function createWeave(opts: WeaveOptions): WeaveHandle {
       cancelAnimationFrame(raf);
       window.removeEventListener('resize', onResize);
       window.removeEventListener('pointermove', onMove);
+      document.removeEventListener('pointerleave', onLeave);
       document.removeEventListener('visibilitychange', onVisibility);
     },
   };

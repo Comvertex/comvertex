@@ -11,15 +11,18 @@
 }
 
 /* Cloud washes — page-anchored, tiled every 190vh, two out-of-phase loops */
+/* NOTE: the spec's second loop (31s background-position slide) was
+   dropped — background-position can't be composited, so it repainted
+   the entire page-height gradient layer every frame (Lighthouse TBT
+   went through the roof, weak GPUs stuttered). The transform drift
+   below runs fully on the compositor. */
 .clouds {
   position: absolute;
   inset: -12vh -12vw;
   z-index: 0;
   pointer-events: none;
   will-change: transform;
-  animation:
-    cloud-drift 18s cubic-bezier(0.45, 0, 0.55, 1) infinite,
-    cloud-pos 31s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  animation: cloud-drift 18s cubic-bezier(0.45, 0, 0.55, 1) infinite;
   background-size: 100% 190vh;
   background-repeat: repeat-y;
   background-image:
@@ -35,12 +38,6 @@
   50%  { transform: translate3d(5vw, -8vh, 0) scale(1.04); }
   75%  { transform: translate3d(9vw, 5vh, 0) scale(1.12); }
   100% { transform: translate3d(0, 0, 0) scale(1); }
-}
-
-@keyframes cloud-pos {
-  0%   { background-position: 0 0; }
-  50%  { background-position: 6vw -14vh; }
-  100% { background-position: 0 0; }
 }
 
 /* The weave — viewport canvas, field parallaxes with scroll (JS) */
