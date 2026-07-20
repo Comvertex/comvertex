@@ -19,19 +19,37 @@ export function initMenu(): void {
     else lenis?.start();
   };
 
+  const contact = menu.querySelector<HTMLElement>('.menu-contact');
+
   const openMenu = () => {
     if (open) return;
     open = true;
     menu.hidden = false;
+    // next frame, so the bars→× morph transitions instead of snapping
+    requestAnimationFrame(() => menu.classList.add('is-open'));
     burger.setAttribute('aria-expanded', 'true');
     setScrollLock(true);
     if (!reduced) {
       gsap.fromTo(menu, { autoAlpha: 0 }, { autoAlpha: 1, duration: DUR.swift, ease: 'fluid' });
       gsap.fromTo(
         links,
-        { y: 16, autoAlpha: 0 },
-        { y: 0, autoAlpha: 1, duration: DUR.reveal * 0.8, ease: 'lift', stagger: 0.05 },
+        { y: 20, autoAlpha: 0 },
+        {
+          y: 0,
+          autoAlpha: 1,
+          duration: DUR.reveal * 0.8,
+          ease: 'lift',
+          stagger: 0.06,
+          delay: 0.08,
+        },
       );
+      if (contact) {
+        gsap.fromTo(
+          contact,
+          { y: 12, autoAlpha: 0 },
+          { y: 0, autoAlpha: 1, duration: DUR.reveal * 0.8, ease: 'lift', delay: 0.3 },
+        );
+      }
     }
     closeBtn.focus();
   };
@@ -39,6 +57,7 @@ export function initMenu(): void {
   const closeMenu = (returnFocus = true) => {
     if (!open) return;
     open = false;
+    menu.classList.remove('is-open');
     burger.setAttribute('aria-expanded', 'false');
     setScrollLock(false);
     if (reduced) {

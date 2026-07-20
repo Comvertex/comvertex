@@ -82,12 +82,10 @@ async function arrivalSetup(skip: boolean): Promise<() => void> {
   const h1 = section.querySelector<HTMLElement>('h1');
   const lead = section.querySelector<HTMLElement>('.arrival-lead');
   const ctas = section.querySelector<HTMLElement>('.hero-ctas');
-  const meta = section.querySelector<HTMLElement>('.arrival-meta');
   if (!kicker || !h1 || !lead || !ctas) return noop;
 
   gsap.set([kicker, lead, ctas], { y: 24, autoAlpha: 0 });
   gsap.set(h1, { autoAlpha: 0 });
-  if (meta) gsap.set(meta, { autoAlpha: 0 });
 
   await fontsSettled();
 
@@ -103,9 +101,6 @@ async function arrivalSetup(skip: boolean): Promise<() => void> {
     tl.to(lines, { yPercent: 0, duration: DUR.reveal * f, stagger: 0.12 * f }, 0.12 * f);
     tl.to(lead, { y: 0, autoAlpha: 1, duration: DUR.reveal * f }, 0.26 * f);
     tl.to(ctas, { y: 0, autoAlpha: 1, duration: DUR.reveal * f }, 0.4 * f);
-    if (meta) {
-      tl.to(meta, { autoAlpha: 1, duration: DUR.reveal * 1.5 * f, ease: 'power1.inOut' }, 0.6 * f);
-    }
     tl.call(() => restore(), [], `+=${0.1}`);
   };
 }

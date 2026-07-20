@@ -35,7 +35,9 @@ function applyMood(id: SceneId): void {
 const deepLink = location.hash.length > 1;
 const sunrise = !reduced && !deepLink && !sunriseSeen();
 markSunriseSeen();
-const arrivalMode: ArrivalMode = sunrise ? 'deferred' : deepLink ? 'auto' : 'instant';
+// non-sunrise loads still play the arrival reveal — the page always
+// enters the way a scene does on first reach, never "just there"
+const arrivalMode: ArrivalMode = sunrise ? 'deferred' : 'auto';
 
 initScroll();
 initHeader();
@@ -52,8 +54,8 @@ if (sunrise) {
       weave?.start();
     },
   });
-} else if (!reduced) {
-  // no veil this load — still ease the page in instead of popping
+} else if (!reduced && deepLink) {
+  // deep links land pre-revealed — ease the page in instead of popping
   gsap.fromTo(
     'main',
     { autoAlpha: 0 },

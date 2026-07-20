@@ -165,7 +165,29 @@ main {
 }
 
 .header-nav a {
+  position: relative;
   padding: 6px 2px;
+}
+
+/* underline draws in from the left on hover, retreats to the right */
+.header-nav a::after {
+  content: '';
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  bottom: 0;
+  height: 1.5px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--dur-swift) var(--ease-fluid);
+}
+
+.header-nav a:hover::after,
+.header-nav a:focus-visible::after,
+.header-nav a.is-active::after {
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
 .header-nav a.is-active {
@@ -197,17 +219,20 @@ main {
   backdrop-filter: blur(18px);
   display: flex;
   flex-direction: column;
-  padding: 20px 24px 40px;
+  padding: 0 0 40px;
 }
 
 .menu[hidden] {
   display: none;
 }
 
+/* mirrors the mobile header geometry exactly, so the logo doesn't move
+   and the burger appears to morph into the × in place */
 .menu-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 12px 20px;
 }
 
 .menu-head img {
@@ -216,11 +241,26 @@ main {
 }
 
 .menu-close {
-  padding: 12px;
-  font-family: var(--font-mono);
-  font-size: 22px;
-  color: var(--ink);
-  line-height: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 8px;
+}
+
+.menu-close span {
+  width: 24px;
+  height: 1.5px;
+  background: var(--ink);
+  display: block;
+  transition: transform var(--dur-swift) var(--ease-fluid);
+}
+
+.menu.is-open .menu-close span:first-child {
+  transform: translateY(3.75px) rotate(45deg);
+}
+
+.menu.is-open .menu-close span:last-child {
+  transform: translateY(-3.75px) rotate(-45deg);
 }
 
 .menu-links {
@@ -229,6 +269,7 @@ main {
   flex-direction: column;
   justify-content: center;
   gap: 8px;
+  padding: 0 24px;
 }
 
 .menu-links a {
@@ -260,6 +301,7 @@ main {
   gap: 10px;
   font-family: var(--font-mono);
   font-size: 0.8125rem;
+  padding: 0 24px;
 }
 
 .menu-contact a {
@@ -424,21 +466,6 @@ main {
   align-items: center;
   gap: 32px;
   margin-top: 48px;
-}
-
-.arrival-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 64px 36px;
-}
-
-.arrival-meta p {
-  margin: 0;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.06em;
-  color: var(--ink-3);
 }
 
 /* ── 02 · Services ─────────────────────────────────────────── */
@@ -881,12 +908,6 @@ main {
 
   .arrival-body {
     padding: 0 24px;
-  }
-
-  .arrival-meta {
-    padding: 0 24px 28px;
-    flex-wrap: wrap;
-    gap: 8px;
   }
 
   .hero-ctas {

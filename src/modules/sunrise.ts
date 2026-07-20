@@ -143,14 +143,15 @@ export function playSunrise({ onArrival, onDone }: SunriseHooks): void {
         0,
       );
       settle.to(header, { autoAlpha: 1, duration: 0.8, ease: 'power1.inOut' }, 0);
-      settle.fromTo(hero, { y: 28 }, { y: 0, duration: 1.05, ease: 'lift', clearProps: 'y' }, 0);
-      settle.call(() => onArrival(), [], 0);
 
-      // 5 · swap on the landing frame
+      // 5 · swap on the landing frame — and only NOW the hero enters,
+      // staggering in exactly like any scene does on first reach
       settle.call(
         () => {
           gsap.set(headerLogo, { opacity: 1 });
           veil.remove();
+          gsap.fromTo(hero, { y: 28 }, { y: 0, duration: 1.05, ease: 'lift', clearProps: 'y' });
+          onArrival();
           onDone?.();
         },
         [],
